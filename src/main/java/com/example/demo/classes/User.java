@@ -3,18 +3,18 @@ package com.example.demo.classes;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private final int id;
+    private final int uid;
     private final String username;
     private final String email;
 
-    public User(int id, String username, String email) {
-        this.id = id;
+    public User(int uid, String username, String email) {
+        this.uid = uid;
         this.username = username;
         this.email = email;
     }
 
-    public int getId() {
-        return id;
+    public int getUid() {
+        return uid;
     }
 
     public String getUsername() {
