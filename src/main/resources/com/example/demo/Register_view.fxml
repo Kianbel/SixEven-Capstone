@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.RegisterController">
+   <children>
+      <Label layoutX="19.0" layoutY="90.0" text="Create an account">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <VBox layoutX="19.0" layoutY="144.0" prefHeight="307.0" prefWidth="363.0" spacing="10.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Username" />
+                  <TextField fx:id="textfieldUsername" prefHeight="25.0" prefWidth="347.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Email" />
+                  <TextField fx:id="textfieldEmail" prefHeight="25.0" prefWidth="347.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Password" />
+                  <TextField fx:id="textfieldPassword" prefHeight="25.0" prefWidth="347.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="363.0">
+               <children>
+                  <Label text="Confirm Password" />
+                  <TextField fx:id="textfieldConfirmPassword" prefHeight="25.0" prefWidth="363.0" />
+               </children>
+            </VBox>
+            <Button fx:id="buttonSignUp" mnemonicParsing="false" onAction="#onSignUpButtonClicked" prefHeight="64.0" prefWidth="363.0" text="Sign Up" />
+         </children>
+      </VBox>
+      <VBox layoutX="19.0" layoutY="492.0" prefHeight="52.0" prefWidth="192.0">
+         <children>
+            <Label text="Already have an account?" />
+            <Hyperlink fx:id="hyperlinkSignIn" onAction="#onSignInHyperlinkClicked" text="Sign In" underline="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Hyperlink>
+         </children>
+      </VBox>
+      <Label fx:id="error" contentDisplay="CENTER" layoutX="17.0" layoutY="466.0" prefHeight="17.0" prefWidth="363.0" text="ERROR MESSAGE" textAlignment="CENTER" textFill="RED" />
+   </children>
+</AnchorPane>

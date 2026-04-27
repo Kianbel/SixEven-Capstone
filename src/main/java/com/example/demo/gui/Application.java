@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.gui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,9 +9,9 @@ import java.io.IOException;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("RuntimeAnalyser_view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/com/example/demo/Register_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 400, 600);
+        stage.setTitle("Register page");
         stage.setScene(scene);
         stage.show();
     }
