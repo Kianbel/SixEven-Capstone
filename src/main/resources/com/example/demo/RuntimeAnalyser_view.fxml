@@ -1,40 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
+<VBox prefHeight="600.0" prefWidth="900.0" spacing="0.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.RuntimeController">
+    <children>
+        <!-- HEADER -->
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" spacing="15.0" style="-fx-background-color: #252526; -fx-border-color: #3e3e42; -fx-border-width: 0 0 1 0;">
+            <children>
+                <Label text="Runtime Analyser" textFill="#dcdcdc">
+                    <font>
+                        <Font name="Segoe UI Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #007acc; -fx-text-fill: white; -fx-background-radius: 4; -fx-cursor: hand;" text="Run Analysis">
+                    <font>
+                        <Font name="Segoe UI Semibold" size="13.0" />
+                    </font>
+                </Button>
+            </children>
+            <padding>
+                <Insets left="25.0" right="25.0" />
+            </padding>
+        </HBox>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-         <children>
-            <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Enter code..." HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </TextArea>
-            <ListView prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </ListView>
-         </children>
-      </HBox>
-      <Label text="T(n) = ">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-   </children>
+        <!-- MAIN AREA -->
+        <SplitPane dividerPositions="0.6" style="-fx-background-color: transparent; -fx-padding: 15; -fx-background-insets: 0;" VBox.vgrow="ALWAYS">
+            <items>
+                <!-- EDITOR SIDEBAR -->
+                <VBox spacing="10.0" style="-fx-padding: 0 10 0 0;">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label text="SOURCE CODE" textFill="#858585">
+                                    <font>
+                                        <Font name="Segoe UI Bold" size="11.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <TextArea fx:id="codeTextArea" prefHeight="200.0" prefWidth="200.0" promptText="// Paste your algorithm here..." style="-fx-control-inner-background: #1e1e1e; -fx-text-fill: #ce9178; -fx-font-family: 'Consolas'; -fx-border-color: #3e3e42; -fx-border-radius: 5; -fx-background-radius: 5;" VBox.vgrow="ALWAYS" />
+                    </children>
+                </VBox>
+
+                <!-- ANALYSIS SIDEBAR -->
+                <VBox spacing="10.0" style="-fx-padding: 0 0 0 10;">
+                    <children>
+                        <Label text="COMPLEXITY BREAKDOWN" textFill="#858585">
+                            <font>
+                                <Font name="Segoe UI Bold" size="11.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="stepListView" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #252526; -fx-control-inner-background: #252526; -fx-background-radius: 5; -fx-border-color: #3e3e42; -fx-border-radius: 5;" VBox.vgrow="ALWAYS" />
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+
+        <!-- RESULTS -->
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="20.0" style="-fx-background-color: #007acc;">
+            <children>
+                <VBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label text="TOTAL TIME COMPLEXITY" textFill="#bbdefb">
+                            <font>
+                                <Font name="Segoe UI Bold" size="11.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="labelResult" text="T(n) = O(log n)" textFill="WHITE">
+                            <font>
+                                <Font name="Segoe UI Bold" size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+            <padding>
+                <Insets left="30.0" />
+            </padding>
+        </HBox>
+    </children>
 </VBox>

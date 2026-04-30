@@ -42,13 +42,12 @@ public class RegisterController {
 
     @FXML private void onSignInHyperlinkClicked() {
         try {
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login_view.fxml"));
             Parent root = loader.load();
-
             Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
             stage.setTitle("Login Page");
-            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
