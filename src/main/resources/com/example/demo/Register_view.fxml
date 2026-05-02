@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 
 <StackPane prefHeight="650.0" prefWidth="450.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.RegisterController">
     <children>
@@ -39,14 +39,24 @@
                                 <TextField fx:id="textfieldUsername" prefHeight="40.0" promptText="Enter your username" style="-fx-prompt-text-fill: #858585; -fx-control-inner-background: #1e1e1e; -fx-text-fill: white; -fx-background-radius: 5; -fx-border-color: #3e3e42; -fx-border-radius: 5;" />
                             </children>
                         </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" spacing="5.0">
+                     <children>
+                        <Label text="First name" textFill="#858585">
+                           <font>
+                              <Font name="Segoe UI Bold" size="11.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="textfieldFirstName" prefHeight="40.0" promptText="Enter your first name" style="-fx-prompt-text-fill: #858585; -fx-control-inner-background: #1e1e1e; -fx-text-fill: white; -fx-background-radius: 5; -fx-border-color: #3e3e42; -fx-border-radius: 5;" />
+                     </children>
+                  </VBox>
                         <VBox spacing="5.0">
                             <children>
-                                <Label text="Email" textFill="#858585">
+                                <Label text="Last name" textFill="#858585">
                                     <font>
                                         <Font name="Segoe UI Bold" size="11.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="textfieldEmail" prefHeight="40.0" promptText="you@example.com" style="-fx-prompt-text-fill: #858585; -fx-control-inner-background: #1e1e1e; -fx-text-fill: white; -fx-background-radius: 5; -fx-border-color: #3e3e42; -fx-border-radius: 5;" />
+                                <TextField fx:id="textfieldLastName" prefHeight="40.0" promptText="Enter your last name" style="-fx-prompt-text-fill: #858585; -fx-control-inner-background: #1e1e1e; -fx-text-fill: white; -fx-background-radius: 5; -fx-border-color: #3e3e42; -fx-border-radius: 5;" />
                             </children>
                         </VBox>
                         <VBox spacing="5.0">
