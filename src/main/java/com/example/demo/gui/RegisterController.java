@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Objects;
 
 public class RegisterController {
     @FXML private TextField textfieldUsername;
@@ -73,16 +74,17 @@ public class RegisterController {
 
     private void navigateToEditor() {
         System.out.println("navigated to editor");
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/editor_view.fxml"));
-//            Parent root = loader.load();
-//            Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-//            stage.getScene().setRoot(root);
-//            stage.setTitle("Editor Page");
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+           try {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(
+                       getClass().getResource("/com/example/demo/RuntimeAnalyzer_view.fxml")
+               ));
+               Stage stage = (Stage) textfieldUsername.getScene().getWindow();
+                stage.getScene().setRoot(root);
+                stage.setTitle("Runtime Analyzer");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     private void saveSession(User user) {
