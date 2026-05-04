@@ -65,18 +65,19 @@ public class DatabaseHandler {
         return false;
     }
 
-    public static boolean saveCode(String title, String code, String language, String userid) {
+    public static boolean saveCode(String title, String code, String runtime, String language, String userid) {
         try {
-            String query = "INSERT INTO tblcode (title, code, language, datecreated, userid) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO tblcode (title, code, runtime, language, datecreated, userid) VALUES (?, ?, ?, ?, ?, ?)";
 
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             PreparedStatement stmt = conn.prepareStatement(query);
 
             stmt.setString(1, title);
             stmt.setString(2, code);
-            stmt.setString(3, language);
-            stmt.setString(4, LocalDate.now().toString());
-            stmt.setString(5, userid);
+            stmt.setString(3, runtime);
+            stmt.setString(4, language);
+            stmt.setString(5, LocalDate.now().toString());
+            stmt.setString(6, userid);
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
 

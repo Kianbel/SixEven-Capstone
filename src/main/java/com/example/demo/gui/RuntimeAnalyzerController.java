@@ -49,7 +49,8 @@ public class RuntimeAnalyzerController {
         String language = "C++";
         //TODO get userid
         String userid = "1";
-        if(DatabaseHandler.saveCode(title, code, language, userid)){
+        String runtime = ""; //TODO = getText();
+        if(DatabaseHandler.saveCode(title, code, runtime, language, userid)){
             System.out.println("Code and Runtime Successfully saved");
         }else{
             //TODO error message
