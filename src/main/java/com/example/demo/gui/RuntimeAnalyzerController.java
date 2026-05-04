@@ -1,6 +1,7 @@
 package com.example.demo.gui;
 
 import com.example.demo.classes.*;
+import com.example.demo.database.DatabaseHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,6 +35,27 @@ public class RuntimeAnalyzerController {
             outputArea.setText("Error: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void onSave(){
+        String code = outputArea.getText();
+        System.out.print(code);
+        int end = code.indexOf("(n)");
+        int start = code.indexOf("CODE:") + 5;
+        //TODO refine logic of getting title
+        String title = code.substring(start, end);
+        //TODO get language
+        String language = "C++";
+        //TODO get userid
+        String userid = "1";
+        if(DatabaseHandler.saveCode(title, code, language, userid)){
+            System.out.println("Code and Runtime Successfully saved");
+        }else{
+            //TODO error message
+            System.out.println("Code is not saved");
+        }
+
     }
 
     private Node createActualBlock(String type) {
@@ -258,6 +280,8 @@ public class RuntimeAnalyzerController {
             mls.addStatement(s);
         }
     }
+
+
 
     private record BlockData(String type, TextField f1, TextField f2, TextField f3, TextField f4, ComboBox<String> isEqualCheck, VBox innerContainer) {}
 }

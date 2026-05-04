@@ -6,6 +6,7 @@ import utils.PasswordHasher;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.time.LocalDate;
 
 import static com.example.demo.database.MySQLConnection.*;
 
@@ -62,5 +63,26 @@ public class DatabaseHandler {
         ResultSet rs = stmt.executeQuery();
         if(rs.next()) return true;
         return false;
+    }
+
+    public static boolean saveCode(String title, String code, String language, String userid) {
+        try {
+            String query = "INSERT INTO tblcode (title, code, language, datecreated, userid) VALUES (?, ?, ?, ?, ?)";
+
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            stmt.setString(1, title);
+            stmt.setString(2, code);
+            stmt.setString(3, language);
+            stmt.setString(4, LocalDate.now().toString());
+            stmt.setString(5, userid);
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

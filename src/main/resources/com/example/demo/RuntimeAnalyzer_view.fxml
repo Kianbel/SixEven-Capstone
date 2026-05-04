@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.demo.gui.RuntimeAnalyzerController"
-            prefWidth="1200" prefHeight="800">
-    <padding><Insets topRightBottomLeft="10"/></padding>
+<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.RuntimeAnalyzerController">
+    <padding><Insets topRightBottomLeft="10" /></padding>
 
     <left>
-        <VBox spacing="8" prefWidth="250"
-              style="-fx-background-color: #eeeeee; -fx-border-color: #cccccc; -fx-padding: 10;">
-            <Label text="Blocks Toolset" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+        <VBox prefWidth="250" spacing="8" style="-fx-background-color: #eeeeee; -fx-border-color: #cccccc; -fx-padding: 10;">
+            <Label style="-fx-font-weight: bold; -fx-font-size: 14;" text="Blocks Toolset" />
 
-            <Button text="Declare Variable" maxWidth="Infinity" onAction="#onAddVar" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="Declare Array" maxWidth="Infinity" onAction="#onAddArray" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="Initialize (x = 0)" maxWidth="Infinity" onAction="#onAddInit" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="For Loop" maxWidth="Infinity" onAction="#onAddFor" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="Increment (++)" maxWidth="Infinity" onAction="#onAddInc" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="Decrement (--)" maxWidth="Infinity" onAction="#onAddDec" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="Array Indexing" maxWidth="Infinity" onAction="#onAddIndexing" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="Recursion Call" maxWidth="Infinity" onAction="#onAddRecursion" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <Button maxWidth="Infinity" onAction="#onAddVar" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Declare Variable" />
+            <Button maxWidth="Infinity" onAction="#onAddArray" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Declare Array" />
+            <Button maxWidth="Infinity" onAction="#onAddInit" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Initialize (x = 0)" />
+            <Button maxWidth="Infinity" onAction="#onAddFor" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="For Loop" />
+            <Button maxWidth="Infinity" onAction="#onAddInc" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Increment (++)" />
+            <Button maxWidth="Infinity" onAction="#onAddDec" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Decrement (--)" />
+            <Button maxWidth="Infinity" onAction="#onAddIndexing" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Array Indexing" />
+            <Button maxWidth="Infinity" onAction="#onAddRecursion" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Recursion Call" />
         </VBox>
     </left>
 
     <center>
         <ScrollPane fitToWidth="true" style="-fx-border-color: #999999;">
-            <VBox fx:id="workspace" spacing="5" style="-fx-background-color: white; -fx-min-height: 600; -fx-padding: 20;"/>
+            <VBox fx:id="workspace" spacing="5" style="-fx-background-color: white; -fx-min-height: 600; -fx-padding: 20;" />
         </ScrollPane>
     </center>
 
     <right>
-        <VBox spacing="10" prefWidth="350" style="-fx-padding: 10;">
-            <Label text="Complexity Output:"/>
-            <TextArea fx:id="outputArea" editable="false" VBox.vgrow="ALWAYS" wrapText="true" style="-fx-font-family: 'Consolas';"/>
-            <Button text="Calculate Complexity" onAction="#onCalculate" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" maxWidth="Infinity" prefHeight="40"/>
+        <VBox prefWidth="350" spacing="10" style="-fx-padding: 10;">
+            <Label text="Complexity Output:" />
+            <TextArea fx:id="outputArea" editable="false" style="-fx-font-family: 'Consolas';" wrapText="true" VBox.vgrow="ALWAYS" />
+            <Button maxWidth="Infinity" onAction="#onCalculate" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Calculate Complexity" />
+         <Button layoutX="20.0" layoutY="740.0" maxWidth="Infinity" onAction="#onSave" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Save Code And Runtime" />
         </VBox>
     </right>
 </BorderPane>
