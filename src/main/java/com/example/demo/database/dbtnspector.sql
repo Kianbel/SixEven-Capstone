@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2026 at 01:58 PM
+-- Generation Time: May 04, 2026 at 03:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,7 @@ CREATE TABLE `tblcode` (
   `codeid` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `code` mediumtext NOT NULL,
+  `runtime` varchar(255) NOT NULL,
   `language` varchar(255) NOT NULL,
   `datecreated` date NOT NULL,
   `userid` int(11) NOT NULL
@@ -49,6 +50,13 @@ CREATE TABLE `tbluser` (
   `fname` varchar(255) NOT NULL,
   `lname` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbluser`
+--
+
+INSERT INTO `tbluser` (`userid`, `username`, `password`, `fname`, `lname`) VALUES
+(1, 'josh', 'yFMK99SISCADa/j5liUsZQ==:QLeG2kLLQJ9dNmQjbxgo+dg1s+tA/6mxh1R+z6W8ju4=', 'Josh', 'De la Cerna');
 
 --
 -- Indexes for dumped tables
@@ -81,7 +89,7 @@ ALTER TABLE `tblcode`
 -- AUTO_INCREMENT for table `tbluser`
 --
 ALTER TABLE `tbluser`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
