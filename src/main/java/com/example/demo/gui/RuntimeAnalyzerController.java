@@ -2,6 +2,8 @@ package com.example.demo.gui;
 
 import com.example.demo.classes.*;
 import com.example.demo.database.DatabaseHandler;
+import javafx.animation.FadeTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,9 +11,13 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.ComboBox;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class RuntimeAnalyzerController {
 
+    @FXML private Button calculateButton;
     @FXML private VBox workspace;
     @FXML private TextArea outputArea;
 
@@ -26,37 +32,117 @@ public class RuntimeAnalyzerController {
 
     @FXML
     private void onCalculate() {
-        try {
-            Function currentFunction = new Function("myAlgorithm");
-            currentFunction.addParameter(new Declaration("n"));
-            buildLogicFromUI(workspace, currentFunction);
-            outputArea.setText("CODE:\n" + currentFunction + "\n\nCOMPLEXITY:\nT(n) = " + currentFunction.getRuntime());
-        } catch (Exception e) {
-            outputArea.setText("Error: " + e.getMessage());
-            e.printStackTrace();
-        }
+        outputArea.setText("Calculating...");
+
+         calculateButton.setDisable(true);
+
+        Task<String> calculationTask = new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                Function currentFunction = new Function("myAlgorithm");
+                currentFunction.addParameter(new Declaration("n"));
+
+                buildLogicFromUI(workspace, currentFunction);
+
+                return "CODE:\n" + currentFunction + "\n\nCOMPLEXITY:\nT(n) = " + currentFunction.getRuntime();
+            }
+        };
+
+        calculationTask.setOnSucceeded(e -> {
+            outputArea.setText(calculationTask.getValue());
+             calculateButton.setDisable(false);
+        });
+
+        calculationTask.setOnFailed(e -> {
+            Throwable exception = calculationTask.getException();
+            outputArea.setText("Error: " + exception.getMessage());
+            exception.printStackTrace();
+             calculateButton.setDisable(false);
+        });
+
+        Thread backgroundThread = new Thread(calculationTask);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
 
     @FXML
-    private void onSave(){
-        String code = outputArea.getText();
-        System.out.print(code);
-        int end = code.indexOf("(n)");
-        int start = code.indexOf("CODE:") + 5;
-        //TODO refine logic of getting title
-        String title = code.substring(start, end);
-        //TODO get language
-        String language = "C++";
-        //TODO get userid
-        String userid = "1";
-        String runtime = ""; //TODO = getText();
-        if(DatabaseHandler.saveCode(title, code, runtime, language, userid)){
-            System.out.println("Code and Runtime Successfully saved");
-        }else{
-            //TODO error message
-            System.out.println("Code is not saved");
+    private void onSave() {
+        String fullText = outputArea.getText();
+        if (fullText == null || fullText.isEmpty()) {
+            showToast("Nothing to save! Calculate complexity first.");
+            return;
         }
 
+        // TODO: Implement loadUserFromSer
+//        User currentUser = loadUserFromSer();
+//        if (currentUser == null) {
+//            showToast("Error: No user session found.");
+//            return;
+//        }
+
+        //  Placeholder
+        int userID = 1;
+
+        showToast("Saving to database..."); // Immediate feedback
+
+        Task<Boolean> saveTask = new Task<>() {
+            @Override
+            protected Boolean call() throws Exception {
+
+                int start = fullText.indexOf("CODE:") + 5;
+                int end = fullText.indexOf("(n)");
+                String title = (start > 4 && end > start) ? fullText.substring(start, end).trim() : "Untitled Analysis";
+                String language = fullText.contains("#include") ? "C++" : "Java";
+
+                String runtime = "Unknown";
+                if (fullText.contains("T(n) =")) {
+                    int rStart = fullText.indexOf("T(n) =");
+                    int rEnd = fullText.indexOf("\n", rStart);
+                    runtime = (rEnd != -1) ? fullText.substring(rStart, rEnd).trim() : fullText.substring(rStart).trim();
+                }
+
+
+                return DatabaseHandler.saveCode(title, fullText, runtime, language, userID);
+                // TODO: replace when loading user is implemented
+//                return DatabaseHandler.saveCode(title, fullText, runtime, language, currentUser.getUserid());
+            }
+        };
+
+        saveTask.setOnSucceeded(e -> {
+            if (saveTask.getValue()) showToast("Successfully saved!");
+            else showToast("Database Error: Save failed.");
+        });
+
+        new Thread(saveTask).start();
+    }
+
+    private void showToast(String message) {
+        Stage stage = (Stage) workspace.getScene().getWindow();
+        Popup popup = new Popup();
+
+        Label label = new Label(message);
+        label.setStyle("-fx-background-color: #252526; -fx-text-fill: #dcdcdc; " +
+                "-fx-padding: 15px; -fx-background-radius: 10px; " +
+                "-fx-border-color: #007acc; -fx-border-radius: 10px; " +
+                "-fx-font-family: 'Segoe UI'; -fx-font-weight: bold;");
+
+        popup.getContent().add(label);
+        popup.show(stage);
+
+        popup.setX(stage.getX() + stage.getWidth()/2 - label.getWidth()/2);
+        popup.setY(stage.getY() + stage.getHeight() - 100);
+
+        FadeTransition fade = new FadeTransition(Duration.seconds(3), label);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+        fade.setOnFinished(e -> popup.hide());
+        fade.play();
+    }
+
+    private Label addLabel(String message){
+        Label l = new Label(message);
+        l.setStyle("-fx-text-fill: #000000; -fx-font-weight: bold;");
+        return l;
     }
 
     private Node createActualBlock(String type) {
@@ -73,7 +159,7 @@ public class RuntimeAnalyzerController {
                 blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #FFCC80;");
                 TextField name = new TextField("n");
                 name.setPrefWidth(60);
-                header.getChildren().addAll(new Label("Declare"), name);
+                header.getChildren().addAll(addLabel("Declare"), name);
                 blockBase.setUserData(new BlockData("Var", name, null, null, null, null, null));
             }
             case "Array" -> {
@@ -82,7 +168,7 @@ public class RuntimeAnalyzerController {
                 name.setPrefWidth(50);
                 TextField size = new TextField("10");
                 size.setPrefWidth(50);
-                header.getChildren().addAll(new Label("Array"), name, new Label("["), size, new Label("]"));
+                header.getChildren().addAll(addLabel("Array"), name, addLabel("["), size, addLabel("]"));
                 blockBase.setUserData(new BlockData("Array", name, size, null, null, null, null));
             }
             case "Init" -> {
@@ -91,7 +177,7 @@ public class RuntimeAnalyzerController {
                 varName.setPrefWidth(60);
                 TextField val = new TextField("0");
                 val.setPrefWidth(60);
-                header.getChildren().addAll(new Label("Set"), varName, new Label("="), val);
+                header.getChildren().addAll(addLabel("Set"), varName, addLabel("="), val);
                 blockBase.setUserData(new BlockData("Init", varName, val, null, null, null, null));
             }
             case "For" -> {
@@ -118,7 +204,7 @@ public class RuntimeAnalyzerController {
                 addMenuOption(addMenu,"Indexing","Indexing",innerBody);
                 addMenuOption(addMenu,"Recursion","Recursion",innerBody);
 
-                header.getChildren().addAll(new Label("for"), iter, new Label("= "), start, new Label("to"), limit, isEq, new Label("step"), step, addMenu);
+                header.getChildren().addAll(addLabel("for"), iter, addLabel("= "), start, addLabel("to"), limit, isEq, addLabel("step"), step, addMenu);
                 blockBase.getChildren().add(innerBody);
                 blockBase.setUserData(new BlockData("For", iter, limit, step, start, isEq, innerBody));
             }
@@ -126,14 +212,14 @@ public class RuntimeAnalyzerController {
                 blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #CE93D8;");
                 TextField varName = new TextField("i");
                 varName.setPrefWidth(50);
-                header.getChildren().addAll(varName, new Label("++"));
+                header.getChildren().addAll(varName, addLabel("++"));
                 blockBase.setUserData(new BlockData("Inc", varName, null, null, null, null, null));
             }
             case "Dec" -> {
                 blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #CE93D8;");
                 TextField varName = new TextField("i");
                 varName.setPrefWidth(50);
-                header.getChildren().addAll(varName, new Label("--"));
+                header.getChildren().addAll(varName, addLabel("--"));
                 blockBase.setUserData(new BlockData("Dec", varName, null, null, null, null, null));
             }
             case "Indexing" -> {
@@ -142,7 +228,7 @@ public class RuntimeAnalyzerController {
                 arr.setPrefWidth(40);
                 TextField idx = new TextField("i");
                 idx.setPrefWidth(40);
-                header.getChildren().addAll(new Label("Access"), arr, new Label("["), idx, new Label("] ++"));
+                header.getChildren().addAll(addLabel("Access"), arr, addLabel("["), idx, addLabel("] ++"));
                 blockBase.setUserData(new BlockData("Indexing", arr, idx, null, null, null, null));
             }
             case "Recursion" -> {
@@ -155,9 +241,9 @@ public class RuntimeAnalyzerController {
                 TextField base = new TextField("0");
                 base.setPrefWidth(40);
                 header.getChildren().addAll(
-                        new Label("Recurse"), name,
-                        new Label("("), arg, new Label(")"),
-                        new Label("  base case: n ≤"), base
+                        addLabel("Recurse"), name,
+                        addLabel("("), arg, addLabel(")"),
+                        addLabel("  base case: n ≤"), base
                 );
                 blockBase.setUserData(new BlockData("Recursion", name, arg, base, null, null, null));
             }

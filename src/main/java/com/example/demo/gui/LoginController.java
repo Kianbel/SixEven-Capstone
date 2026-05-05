@@ -2,18 +2,24 @@ package com.example.demo.gui;
 
 import com.example.demo.classes.User;
 import com.example.demo.database.DatabaseHandler;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.Objects;
 
 public class LoginController {
+    @FXML private Button buttonLogin;
+    @FXML private Hyperlink hyperlinkRegister;
     @FXML private TextField textfieldUsername;
     @FXML private TextField textfieldPassword;
     @FXML private Label error;
@@ -22,24 +28,52 @@ public class LoginController {
         error.setText("");
     }
 
-    @FXML private void onLogInButtonClicked() {
+    @FXML
+    private void onLogInButtonClicked() {
         String username = textfieldUsername.getText();
         String password = textfieldPassword.getText();
 
         if(username.isBlank() || password.isBlank()) {
-            error.setText("Fields cannot be empty");
-            return;
-        }
-        User authenticatedUser = DatabaseHandler.authenticateUser(username, password);
-        if(authenticatedUser == null) {
-            error.setText("Invalid credentials");
+            showError("Fields cannot be empty");
             return;
         }
 
-        saveSession(authenticatedUser);
-        error.setText("");
+        showSuccess("Logging in user...");
 
-        navigateToEditor();
+        buttonLogin.setDisable(true);
+        hyperlinkRegister.setDisable(true);
+
+        Task<User> loginTask = new Task<>() {
+            @Override
+            protected User call() throws Exception {
+                return DatabaseHandler.authenticateUser(username, password);
+            }
+        };
+
+        loginTask.setOnSucceeded(e -> {
+            User user = loginTask.getValue();
+            if(user != null) {
+                showSuccess("Welcome back, "+user.getFirstname()+"!");
+                saveSession(user);
+                navigateToEditor();
+            } else {
+                showError("Invalid credentials");
+                buttonLogin.setDisable(false);
+                hyperlinkRegister.setDisable(false);
+            }
+        });
+
+        new Thread(loginTask).start();
+    }
+
+    private void showError(String message){
+        error.setTextFill(Color.RED);
+        error.setText(message);
+    }
+
+    private void showSuccess(String message){
+        error.setTextFill(Color.PALEGREEN);
+        error.setText(message);
     }
 
     @FXML private void onRegisterHyperlinkClicked() {

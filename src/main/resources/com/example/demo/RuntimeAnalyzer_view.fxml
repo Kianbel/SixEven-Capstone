@@ -3,37 +3,61 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.RuntimeAnalyzerController">
-    <padding><Insets topRightBottomLeft="10" /></padding>
+<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.RuntimeAnalyzerController">
+    <padding><Insets bottom="15" left="15" right="15" top="15" /></padding>
 
+    <!-- LEFT SIDEBAR -->
     <left>
-        <VBox prefWidth="250" spacing="8" style="-fx-background-color: #eeeeee; -fx-border-color: #cccccc; -fx-padding: 10;">
-            <Label style="-fx-font-weight: bold; -fx-font-size: 14;" text="Blocks Toolset" />
+        <VBox prefWidth="250" spacing="12" style="-fx-background-color: #252526; -fx-background-radius: 10; -fx-border-color: #3e3e42; -fx-border-radius: 10; -fx-padding: 15;">
+            <Label text="Blocks Toolset" textFill="#dcdcdc">
+                <font>
+                    <Font name="Segoe UI Bold" size="16.0" />
+                </font>
+                <VBox.margin><Insets bottom="5" /></VBox.margin>
+            </Label>
 
-            <Button maxWidth="Infinity" onAction="#onAddVar" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Declare Variable" />
-            <Button maxWidth="Infinity" onAction="#onAddArray" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Declare Array" />
-            <Button maxWidth="Infinity" onAction="#onAddInit" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Initialize (x = 0)" />
-            <Button maxWidth="Infinity" onAction="#onAddFor" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="For Loop" />
-            <Button maxWidth="Infinity" onAction="#onAddInc" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Increment (++)" />
-            <Button maxWidth="Infinity" onAction="#onAddDec" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Decrement (--)" />
-            <Button maxWidth="Infinity" onAction="#onAddIndexing" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Array Indexing" />
-            <Button maxWidth="Infinity" onAction="#onAddRecursion" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Recursion Call" />
+            <VBox spacing="8">
+                <Button maxWidth="Infinity" onAction="#onAddVar" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="Declare Variable" />
+                <Button maxWidth="Infinity" onAction="#onAddArray" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="Declare Array" />
+                <Button maxWidth="Infinity" onAction="#onAddInit" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="Initialize (x = 0)" />
+                <Button maxWidth="Infinity" onAction="#onAddFor" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="For Loop" />
+                <Button maxWidth="Infinity" onAction="#onAddInc" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="Increment (++)" />
+                <Button maxWidth="Infinity" onAction="#onAddDec" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="Decrement (--)" />
+                <Button maxWidth="Infinity" onAction="#onAddIndexing" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="Array Indexing" />
+                <Button maxWidth="Infinity" onAction="#onAddRecursion" style="-fx-background-color: #3e3e42; -fx-text-fill: #dcdcdc; -fx-cursor: hand; -fx-background-radius: 5;" text="Recursion Call" />
+            </VBox>
         </VBox>
     </left>
 
+    <!-- CENTER -->
     <center>
-        <ScrollPane fitToWidth="true" style="-fx-border-color: #999999;">
-            <VBox fx:id="workspace" spacing="5" style="-fx-background-color: white; -fx-min-height: 600; -fx-padding: 20;" />
+        <ScrollPane fitToWidth="true" style="-fx-background: #1e1e1e; -fx-border-color: transparent; -fx-background-color: transparent;">
+            <BorderPane.margin><Insets left="15" right="15" /></BorderPane.margin>
+            <VBox fx:id="workspace" spacing="10" style="-fx-background-color: #252526; -fx-background-radius: 10; -fx-border-color: #3e3e42; -fx-border-radius: 10; -fx-min-height: 700; -fx-padding: 25;">
+                <!-- Blocks will be injected here -->
+            </VBox>
         </ScrollPane>
     </center>
 
+    <!-- RIGHT SIDEBAR -->
     <right>
-        <VBox prefWidth="350" spacing="10" style="-fx-padding: 10;">
-            <Label text="Complexity Output:" />
-            <TextArea fx:id="outputArea" editable="false" style="-fx-font-family: 'Consolas';" wrapText="true" VBox.vgrow="ALWAYS" />
-            <Button maxWidth="Infinity" onAction="#onCalculate" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Calculate Complexity" />
-         <Button layoutX="20.0" layoutY="740.0" maxWidth="Infinity" onAction="#onSave" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Save Code And Runtime" />
+        <VBox prefWidth="350" spacing="15">
+            <VBox spacing="10" VBox.vgrow="ALWAYS" style="-fx-background-color: #252526; -fx-background-radius: 10; -fx-border-color: #3e3e42; -fx-border-radius: 10; -fx-padding: 15;">
+                <Label text="Complexity Output" textFill="#858585">
+                    <font><Font name="Segoe UI Bold" size="12.0" /></font>
+                </Label>
+                <TextArea fx:id="outputArea" editable="false" VBox.vgrow="ALWAYS"
+                          style="-fx-control-inner-background: #1e1e1e; -fx-text-fill: #4EC9B0; -fx-font-family: 'Consolas'; -fx-border-color: #3e3e42; -fx-background-radius: 5; -fx-border-radius: 5;" wrapText="true" />
+            </VBox>
+
+            <VBox spacing="10">
+                <Button fx:id="calculateButton" maxWidth="Infinity" onAction="#onCalculate" prefHeight="45"
+                        style="-fx-background-color: #007acc; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold; -fx-cursor: hand;" text="Calculate Complexity" />
+                <Button maxWidth="Infinity" onAction="#onSave" prefHeight="45"
+                        style="-fx-background-color: #2d8a39; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold; -fx-cursor: hand;" text="Save Code and Result" />
+            </VBox>
         </VBox>
     </right>
 </BorderPane>

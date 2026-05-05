@@ -2,18 +2,24 @@ package com.example.demo.gui;
 
 import com.example.demo.classes.User;
 import com.example.demo.database.DatabaseHandler;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.Objects;
 
 public class RegisterController {
+    @FXML private Button buttonSignup;
+    @FXML private Hyperlink hyperlinkSignin;
     @FXML private TextField textfieldUsername;
     @FXML private TextField textfieldPassword;
     @FXML private TextField textfieldConfirmPassword;
@@ -25,7 +31,8 @@ public class RegisterController {
         error.setText("");
     }
 
-    @FXML private void onSignUpButtonClicked() {
+    @FXML
+    private void onSignUpButtonClicked() {
         String username = textfieldUsername.getText();
         String password = textfieldPassword.getText();
         String confirmPassword = textfieldConfirmPassword.getText();
@@ -33,30 +40,54 @@ public class RegisterController {
         String lastname = textfieldLastName.getText();
 
         if(firstname.isBlank() || lastname.isBlank() || username.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
-            error.setText("Fields cannot be empty");
+            showError("Fields cannot be empty");
+            return;
         }
-        else {
-            if(!confirmPassword.equals(password)) {
-                error.setText("Password and confirm password are not equal");
-                return;
-            }
-
-            boolean success = DatabaseHandler.registerUser(username, password, firstname, lastname);
-            if(!success) {
-                error.setText("Username already exists");
-                return;
-            }
-
-            User authenticatedUser = DatabaseHandler.authenticateUser(username, password);
-            if(authenticatedUser == null) {
-                error.setText("Unable to register user");
-                return;
-            }
-
-            saveSession(authenticatedUser);
-            error.setText("");
-            navigateToEditor();
+        if(!confirmPassword.equals(password)) {
+            showError("Passwords do not match");
+            return;
         }
+
+        showSuccess("Registering user...");
+
+        buttonSignup.setDisable(true);
+        hyperlinkSignin.setDisable(true);
+
+        Task<User> registerTask = new Task<>() {
+            @Override
+            protected User call() throws Exception {
+                boolean success = DatabaseHandler.registerUser(username, password, firstname, lastname);
+                if(!success) return null;
+
+                // Auto-login after registration
+                return DatabaseHandler.authenticateUser(username, password);
+            }
+        };
+
+        registerTask.setOnSucceeded(e -> {
+            User user = registerTask.getValue();
+            if(user != null) {
+                showSuccess("Glad to have you, "+user.getFirstname()+"!");
+                saveSession(user);
+                navigateToEditor();
+            } else {
+                showError("Registration failed: Username may exist.");
+                buttonSignup.setDisable(false);
+                hyperlinkSignin.setDisable(false);
+            }
+        });
+
+        new Thread(registerTask).start();
+    }
+
+    private void showError(String message){
+        error.setTextFill(Color.RED);
+        error.setText(message);
+    }
+
+    private void showSuccess(String message){
+        error.setTextFill(Color.PALEGREEN);
+        error.setText(message);
     }
 
     @FXML private void onSignInHyperlinkClicked() {
