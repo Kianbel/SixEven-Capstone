@@ -3,11 +3,11 @@ package com.example.demo.classes;
 import org.matheclipse.core.eval.ExprEvaluator;
 
 public abstract class Loop extends MultiLineStatement{
-    SingleLineStatement statement;
+    Assignment statement;
     Bound condition;
     SingleLineStatement increment;
 
-    public Loop(SingleLineStatement statement, Bound condition, SingleLineStatement increment) {
+    public Loop(Assignment statement, Bound condition, SingleLineStatement increment) {
         this.statement = statement;
         this.condition = condition;
         this.increment = increment;

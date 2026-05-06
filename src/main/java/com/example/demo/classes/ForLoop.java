@@ -1,7 +1,7 @@
 package com.example.demo.classes;
 
 public class ForLoop extends Loop {
-    public ForLoop(SingleLineStatement statement, Bound condition, SingleLineStatement increment) {
+    public ForLoop(Assignment statement, Bound condition, SingleLineStatement increment) {
         super(statement, condition, increment);
     }
 
