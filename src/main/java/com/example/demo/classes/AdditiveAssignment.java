@@ -6,7 +6,8 @@ public class AdditiveAssignment extends IncreaseAssignment{
     }
     @Override
     public String getRuntime(){
-        getVariable().setExpression(new Binary(new Plus(), getVariable().getExpression(), expression));
+        if(!getVariable().isIterator())
+            getVariable().setExpression(new Binary(new Plus(), getVariable().getExpression(), expression));
         return super.getRuntime();
     }
 }

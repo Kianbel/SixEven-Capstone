@@ -20,6 +20,7 @@ public abstract class Loop extends MultiLineStatement{
 
     public String getRuntime(){
         String length = null;
+
         if(increment instanceof Assignment a){
             if(statement.getVariable() != a.getVariable())
                 throw new RuntimeException("Same variable must be used for the parameters");
@@ -31,16 +32,19 @@ public abstract class Loop extends MultiLineStatement{
             if(condition instanceof UpperBound u && increment instanceof IncreaseAssignment){
                 if(u.getIterator().getExpression() == null)
                     throw new RuntimeException("Iterator cannot be NULL");
+                String res = "0";
                 ExprEvaluator evaluator = new ExprEvaluator(false, (short) 100);
-                String res = super.getRuntime();
-//                System.out.println(u.getUpperBound().checkedToString(variables));
-                String query = "Sum("+ res +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"})";
-//                System.out.println(query);
-                res = evaluator.eval(query).toString();
-//                System.out.println(res);
                 res = evaluator.eval(res + " + " + statement.getRuntime()).toString();
                 res = evaluator.eval(res + " + " + "Sum("+ condition.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"+1})").toString();
                 res = evaluator.eval(res + " + " + "Sum("+ increment.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"})").toString();
+                String temp = super.getRuntime();
+//                System.out.println(u.getUpperBound().checkedToString(variables));
+                String query = "Sum("+ temp +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"})";
+//                System.out.println(query);
+                temp = evaluator.eval(query).toString();
+//                System.out.println(temp);
+                res = evaluator.eval(res + "+" + temp).toString();
+
                 condition.getIterator().setIterator(false);
                 return res;
             }

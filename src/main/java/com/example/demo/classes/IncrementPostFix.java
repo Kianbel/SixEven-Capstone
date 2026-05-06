@@ -7,7 +7,8 @@ public class IncrementPostFix extends Unary{
 
     @Override
     public int getRuntime() {
-        ((Variable)getExpression1()).setExpression(new Binary(new Plus(), ((Variable)getExpression1()).getExpression(), new Value<Integer>(1)));
+        if(!((Variable)getExpression1()).isIterator())
+            ((Variable)getExpression1()).setExpression(new Binary(new Plus(), ((Variable)getExpression1()).getExpression(), new Value<Integer>(1)));
         return super.getRuntime();
     }
 }
