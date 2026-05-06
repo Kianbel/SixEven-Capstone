@@ -7,6 +7,7 @@ public class Initialization extends Assignment {
     @Override
     public String getRuntime(){
         getVariable().setExpression(expression);
+        getVariable().incrementCounter();
         return super.getRuntime();
     }
 }

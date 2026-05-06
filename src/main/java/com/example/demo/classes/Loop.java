@@ -28,10 +28,10 @@ public abstract class Loop extends MultiLineStatement{
                 throw new RuntimeException("Iterator must be incremented");
             if(condition.getExpression2().toString().contains("++"))
                 throw new RuntimeException("UpperBound cannot be increasing");
+            if(condition.getIterator().getExpression() == null)
+                throw new RuntimeException("Iterator cannot be NULL");
             condition.getIterator().setIterator(true);
             if(condition instanceof UpperBound u && increment instanceof IncreaseAssignment){
-                if(u.getIterator().getExpression() == null)
-                    throw new RuntimeException("Iterator cannot be NULL");
                 String res = "0";
                 ExprEvaluator evaluator = new ExprEvaluator(false, (short) 100);
                 res = evaluator.eval(res + " + " + statement.getRuntime()).toString();

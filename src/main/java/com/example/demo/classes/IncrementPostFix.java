@@ -9,6 +9,8 @@ public class IncrementPostFix extends Unary{
     public int getRuntime() {
         if(!((Variable)getExpression1()).isIterator())
             ((Variable)getExpression1()).setExpression(new Binary(new Plus(), ((Variable)getExpression1()).getExpression(), new Value<Integer>(1)));
+        else ((Variable)getExpression1()).incrementCounter();
+
         return super.getRuntime();
     }
 }

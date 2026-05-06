@@ -7,11 +7,13 @@ public class Variable extends Expression{
     private String name;
     private Expression expression;
     private boolean isIterator;
+    private int counter;
     public Variable(String name, Expression expression){
         super();
         this.name = name;
         this.expression = expression;
         isIterator = false;
+        counter = 0;
     }
     public Variable(String name){
         super();
@@ -46,8 +48,14 @@ public class Variable extends Expression{
 
     public void setIterator(boolean iterator) {
         isIterator = iterator;
+        counter = 0;
     }
 
+    public void incrementCounter(){
+        counter++;
+        if(counter > 2)
+            throw new RuntimeException("An iterator value cannot be reassigned");
+    }
     public boolean isIterator() {
         return isIterator;
     }
