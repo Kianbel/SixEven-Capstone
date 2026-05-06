@@ -32,18 +32,17 @@ public abstract class Loop extends MultiLineStatement{
                 throw new RuntimeException("Iterator cannot be NULL");
             condition.getIterator().setIterator(true);
             if(condition instanceof UpperBound u && increment instanceof IncreaseAssignment){
-                String res = "0";
+
                 ExprEvaluator evaluator = new ExprEvaluator(false, (short) 100);
-                res = evaluator.eval(res + " + " + statement.getRuntime()).toString();
-                res = evaluator.eval(res + " + " + "Sum("+ condition.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"+1})").toString();
-                res = evaluator.eval(res + " + " + "Sum("+ increment.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"})").toString();
+
+
+                String res = evaluator.eval(statement.getRuntime() +
+                        "+Sum("+ condition.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"+1})"+
+                        "+Sum("+ increment.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"})").toString();
                 String temp = super.getRuntime();
-//                System.out.println(u.getUpperBound().checkedToString(variables));
                 String query = "Sum("+ temp +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + ")/" + a.getExpression().toString()+"})";
-//                System.out.println(query);
-                temp = evaluator.eval(query).toString();
-//                System.out.println(temp);
-                res = evaluator.eval(res + "+" + temp).toString();
+
+                res = evaluator.eval(res + "+" + query).toString();
 
                 condition.getIterator().setIterator(false);
                 return res;
