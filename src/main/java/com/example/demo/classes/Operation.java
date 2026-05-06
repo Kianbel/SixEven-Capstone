@@ -8,7 +8,7 @@ public abstract class Operation extends Expression {
        this.expression1 = expression1;
     }
 
-    public int getRuntime(){return 1;}
+    public int getRuntime(){return expression1.getRuntime() + 1;}
 
     public Expression getExpression1() {
         return expression1;

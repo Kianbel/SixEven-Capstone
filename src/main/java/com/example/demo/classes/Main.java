@@ -14,6 +14,7 @@ public class Main {
         Declaration d5 = new Declaration("k");
         //we add one of the declaration as parameter, specifically n
         sum.addParameter(d1);
+        sum.addStatement(new SingleLineStatement(new IncrementPostFix(d1.getVariable())));
         //we add the sum variable to the function's body
         sum.addStatement(d3);
         //we add initialize the sum variable to 0
@@ -38,7 +39,7 @@ public class Main {
         //increasing are those that increase the value and decreasing are those that decrease the value
         //for now we only allow increasing to make it simpler and for now we only allow +=
         //we can't do i++ as well because it's a bit complicated and let's stick with i += 1
-        ForLoop f1 = new ForLoop(new Initialization(d2.getVariable(), new Value<Integer>(0)), new RightUpperBound(d2.getVariable(), d1.getVariable(), false), new AdditiveAssignment(d2.getVariable(), new Value<Integer>(3)));
+        ForLoop f1 = new ForLoop(new Initialization(d2.getVariable(), new Value<Integer>(0)), new RightUpperBound(d2.getVariable(),d1.getVariable(), false), new AdditiveAssignment(d2.getVariable(), new Value<Integer>(3)));
         //we add variable j to the first for loop's body
         f1.addStatement(d4);
         //we make another for loop with the iterator j
@@ -57,7 +58,7 @@ public class Main {
         f2.addStatement(f3);
         //we make simple statement sum++ by making a Unary Operation. isPrefix false because we want it to be postfix
         f3.addStatement(new SingleLineStatement(new IncrementPostFix(d3.getVariable())));
-        sum.addStatement(new Initialization(d2.getVariable(), new Value<Integer>(1)));
+//        sum.addStatement(new Initialization(d2.getVariable(), new Value<Integer>(1)));
         //we can print the function
         System.out.println(sum);
         //then we can get the run time

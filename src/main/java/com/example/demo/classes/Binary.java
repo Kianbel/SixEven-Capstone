@@ -29,5 +29,8 @@ public class Binary extends Operation{
         return expression1.checkedToString() + operator.toString()+expression2.checkedToString();
 
     }
-
+    @Override
+    public int getRuntime(){
+        return expression2.getRuntime() + super.getRuntime();
+    }
 }
