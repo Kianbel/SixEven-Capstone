@@ -58,7 +58,7 @@ public class Main {
         f2.addStatement(f3);
         //we make simple statement sum++ by making a Unary Operation. isPrefix false because we want it to be postfix
         f3.addStatement(new SingleLineStatement(new IncrementPostFix(d3.getVariable())));
-        sum.addStatement(new Initialization(d2.getVariable(), new Value<Integer>(1)));
+//        sum.addStatement(new Initialization(d2.getVariable(), new Value<Integer>(1)));
         //we can print the function
         System.out.println(sum);
         //then we can get the run time

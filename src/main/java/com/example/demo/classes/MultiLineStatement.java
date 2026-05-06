@@ -31,11 +31,10 @@ public class MultiLineStatement extends Statement{
 
     @Override
     public String getRuntime() {
-        ExprEvaluator evaluator = new ExprEvaluator(false, (short) 100);
         String res = "0";
         for(Statement s : statements)
-            res = evaluator.eval("("+res + ") + (" + s.getRuntime()+")").toString();
-        return evaluator.eval("Expand("+ res +")").toString();
+                res += "+"+s.getRuntime();
+        return Evaluator.getEvaluator().eval(res).toString();
     }
     public  void addStatement(Statement statement){
         statements.add(statement);

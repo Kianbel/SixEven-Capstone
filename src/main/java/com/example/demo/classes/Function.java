@@ -45,10 +45,10 @@ public class Function {
         return res;
     }
     public String getRuntime() {
-        ExprEvaluator evaluator = new ExprEvaluator(false, (short) 100);
         String res = "0";
+
         for(Statement s : statements)
-            res = evaluator.eval("("+res + ") + (" + s.getRuntime()+")").toString();
-        return evaluator.eval("Expand("+ res +")").toString();
+            res += "+"+s.getRuntime();
+        return Evaluator.getEvaluator().eval("Expand("+ res +")").toString();
     }
 }
