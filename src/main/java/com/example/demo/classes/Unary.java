@@ -1,8 +1,9 @@
 package com.example.demo.classes;
 
 import java.util.HashSet;
+import java.util.List;
 
-public class Unary extends Operation implements Incrementable {
+public abstract class Unary extends Operation implements Incrementable {
     boolean isPrefix;
     public Unary(Operator operator, Variable variable, boolean isPrefix) {
         super(operator, variable);
@@ -24,8 +25,8 @@ public class Unary extends Operation implements Incrementable {
     }
 
     @Override
-    public String checkedToString(HashSet<Variable> variables) {
-        if(variables.contains((Variable) expression1))
+    public String checkedToString() {
+        if(((Variable) expression1).isIterator())
             return toString();
         return simplifiedToString();
     }

@@ -93,7 +93,7 @@ public class LoginController {
         System.out.println("navigated to editor");
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getResource("/com/example/demo/RuntimeAnalyzer_view.fxml")
+                    getClass().getResource("/com/example/demo/modular-view.fxml")
             ));
             Stage stage = (Stage) textfieldUsername.getScene().getWindow();
             stage.getScene().setRoot(root);

@@ -9,7 +9,6 @@ import java.util.List;
 public class Function {
     List<Statement> statements = new ArrayList<>();
     List<Declaration> parameters = new ArrayList<>();
-    HashSet<Variable> variables = new HashSet<>();
     private String name;
     public Function(String name){
         this.name = name;
@@ -17,8 +16,6 @@ public class Function {
 
     public  void addStatement(Statement statement){
         statements.add(statement);
-        statement.setVariables(variables);
-//        System.out.println(variables == null);
     }
     public void addParameter(Declaration declaration){
         parameters.add(declaration);

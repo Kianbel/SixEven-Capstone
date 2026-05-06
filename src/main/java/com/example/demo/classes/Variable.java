@@ -1,14 +1,17 @@
 package com.example.demo.classes;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class Variable extends Expression{
     private String name;
     private Expression expression;
+    private boolean isIterator;
     public Variable(String name, Expression expression){
         super();
         this.name = name;
         this.expression = expression;
+        isIterator = false;
     }
     public Variable(String name){
         super();
@@ -35,10 +38,18 @@ public class Variable extends Expression{
     }
 
     @Override
-    public String checkedToString(HashSet<Variable> variables) {
-        if(variables.contains(this))
+    public String checkedToString() {
+        if(isIterator)
             return toString();
         else return simplifiedToString();
+    }
+
+    public void setIterator(boolean iterator) {
+        isIterator = iterator;
+    }
+
+    public boolean isIterator() {
+        return isIterator;
     }
 
     @Override

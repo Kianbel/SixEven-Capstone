@@ -1,6 +1,7 @@
 package com.example.demo.classes;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class Binary extends Operation{
     Expression expression2;
@@ -24,8 +25,8 @@ public class Binary extends Operation{
     }
 
     @Override
-    public String checkedToString(HashSet<Variable> variables) {
-        return expression1.checkedToString(variables) + operator.toString()+expression2.checkedToString(variables);
+    public String checkedToString() {
+        return expression1.checkedToString() + operator.toString()+expression2.checkedToString();
 
     }
 

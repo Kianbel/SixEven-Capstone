@@ -199,7 +199,7 @@ public class RuntimeAnalyzerController {
                 MenuButton addMenu = new MenuButton("+");
                 addMenuOption(addMenu,"Initialize","Init",innerBody);
                 addMenuOption(addMenu,"Nested For","For",innerBody);
-                addMenuOption(addMenu,"Increment","Inc",innerBody);
+                addMenuOption(addMenu,"IncrementPostFix","Inc",innerBody);
                 addMenuOption(addMenu,"Decrement","Dec",innerBody);
                 addMenuOption(addMenu,"Indexing","Indexing",innerBody);
                 addMenuOption(addMenu,"Recursion","Recursion",innerBody);
@@ -277,11 +277,11 @@ public class RuntimeAnalyzerController {
                 case "Var" ->
                         addStatement(logicParent, new Declaration(data.f1.getText()));
 
-                case "Array" -> {
-                    int size = parseIntSafe(data.f2.getText(), 10);
-                    Array arr = new Array(data.f1.getText(), new Value<>(size));
-                    addStatement(logicParent, new Declaration(arr.toString()));
-                }
+//                case "Array" -> {
+//                    int size = parseIntSafe(data.f2.getText(), 10);
+//                    Array arr = new Array(data.f1.getText(), new Value<>(size));
+//                    addStatement(logicParent, new Declaration(arr.toString()));
+//                }
 
                 case "Init" -> {
                     Variable v = new Variable(data.f1.getText());
@@ -290,18 +290,18 @@ public class RuntimeAnalyzerController {
 
                 case "Inc" ->
                         addStatement(logicParent, new SingleLineStatement(
-                                new Increment(new Variable(data.f1.getText()), false)));
+                                new IncrementPostFix(new Variable(data.f1.getText()))));
 
-                case "Dec" ->
-                        addStatement(logicParent, new SingleLineStatement(
-                                new Decrement(new Variable(data.f1.getText()), false)));
-
-                case "Indexing" -> {
-                    Array arr = new Array(data.f1.getText());
-                    Indexing idx = new Indexing(arr, parseExpression(data.f2.getText()));
-                    addStatement(logicParent, new SingleLineStatement(
-                            new Increment(new Variable(idx.toString()), false)));
-                }
+//                case "Dec" ->
+//                        addStatement(logicParent, new SingleLineStatement(
+//                                new Decrement(new Variable(data.f1.getText()), false)));
+//
+//                case "Indexing" -> {
+//                    Array arr = new Array(data.f1.getText());
+//                    Indexing idx = new Indexing(arr, parseExpression(data.f2.getText()));
+//                    addStatement(logicParent, new SingleLineStatement(
+//                            new IncrementPostFix(new Variable(idx.toString()), false)));
+//                }
 
                 case "For" -> {
                     Variable iter   = new Variable(data.f1.getText());
@@ -318,21 +318,21 @@ public class RuntimeAnalyzerController {
                     addStatement(logicParent, loop);
                 }
 
-                case "Recursion" -> {
-                    String funcName = data.f1.getText();
-                    String arg      = data.f2.getText();
-                    int    baseCase = parseIntSafe(data.f3 != null ? data.f3.getText() : "0", 0);
-
-                    if (baseCase < 0) {
-                        outputArea.setText("Error: base case must be >= 0 for recursion '" + funcName + "'");
-                        return;
-                    }
-
-                    Recursion rec = new Recursion(funcName);
-                    addStatement(logicParent, new SingleLineStatement(
-                            new Variable(funcName + "(" + arg + ")  // base: n <= " + baseCase)
-                    ));
-                }
+//                case "Recursion" -> {
+//                    String funcName = data.f1.getText();
+//                    String arg      = data.f2.getText();
+//                    int    baseCase = parseIntSafe(data.f3 != null ? data.f3.getText() : "0", 0);
+//
+//                    if (baseCase < 0) {
+//                        outputArea.setText("Error: base case must be >= 0 for recursion '" + funcName + "'");
+//                        return;
+//                    }
+//
+//                    Recursion rec = new Recursion(funcName);
+//                    addStatement(logicParent, new SingleLineStatement(
+//                            new Variable(funcName + "(" + arg + ")  // base: n <= " + baseCase)
+//                    ));
+//                }
             }
         }
     }

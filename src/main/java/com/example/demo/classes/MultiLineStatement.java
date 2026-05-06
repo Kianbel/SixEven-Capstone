@@ -39,14 +39,6 @@ public class MultiLineStatement extends Statement{
     }
     public  void addStatement(Statement statement){
         statements.add(statement);
-        statement.setVariables(variables);
 //        System.out.println(variables == null);
-    }
-
-    @Override
-    public void setVariables(HashSet<Variable> variables) {
-        super.setVariables(variables);
-        for(Statement s : statements)
-            s.setVariables(variables);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.classes;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class Value<T> extends Expression{
     protected T elem;
@@ -19,7 +20,7 @@ public class Value<T> extends Expression{
     }
 
     @Override
-    public String checkedToString(HashSet<Variable> variables) {
+    public String checkedToString() {
         return toString();
     }
 
