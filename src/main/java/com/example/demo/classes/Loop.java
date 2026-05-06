@@ -32,10 +32,11 @@ public abstract class Loop extends MultiLineStatement{
             condition.getIterator().setIterator(true);
             if(condition instanceof UpperBound u && increment instanceof IncreaseAssignment){
                 String res = statement.getRuntime() +
-                        "+Sum("+ condition.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+","+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + "})/" + a.getExpression().toString()+"+1"+
-                        "+Sum("+ increment.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+","+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + "})/" + a.getExpression().toString();
+                        "+Sum("+ condition.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() +")/"+ a.getExpression().toString() + (u.isEqual() ? "+0" : "-1") + "})+1"+
+                        "+Sum("+ increment.getRuntime() +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() + ")/"+ a.getExpression().toString() + (u.isEqual() ? "+0" : "-1") + "})";
+
                 String temp = super.getRuntime();
-                String query = "Sum("+ temp +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+","+ u.getUpperBound().checkedToString() + (u.isEqual() ? "+0" : "-1") + "})/" + a.getExpression().toString();
+                String query = "Sum("+ temp +",{" + a.getVariable().toString() + "," + a.getVariable().simplifiedToString()+",("+ u.getUpperBound().checkedToString() +")/"+a.getExpression().toString() +(u.isEqual() ? "+0" : "-1") + "})";
                 res = Evaluator.getEvaluator().eval(res + "+" + query).toString();
                 condition.getIterator().setIterator(false);
                 return res;
