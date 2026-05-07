@@ -1,9 +1,12 @@
 package com.example.demo.gui.blocks;
 
 import com.example.demo.classes.*;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.jetbrains.annotations.NotNull;
 
 public class InitializationBlock extends Block {
 
@@ -12,30 +15,38 @@ public class InitializationBlock extends Block {
 
     public InitializationBlock() {
         super();
+        // Accent: Emerald Green
+        setStyle(getStyle() + "-fx-background-color: #2a3d31; -fx-border-color: #4EC9B0;");
 
-        HBox container = new HBox(5);
-        container.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        HBox container = new HBox(8);
+        container.setAlignment(Pos.CENTER_LEFT);
 
-        varZone = new DropZone("variable", "var");
-        varZone.setMinWidth(80);
+        Label eq = new Label("=");
+        eq.setStyle("-fx-text-fill: #4EC9B0; -fx-font-weight: bold;");
 
-        Label eqLabel = new Label("=");
-        eqLabel.setStyle("-fx-text-fill: #4EC9B0; -fx-font-weight: bold;");
+        javafx.scene.control.Button deleteBtn = createDeleteButton();
+        deleteBtn.setOnAction(e -> { if (getParent() != null) ((VBox) getParent()).getChildren().remove(this); });
 
-        valueZone = new DropZone("expression", "value");
-        valueZone.setMinWidth(80);
-
-        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
-        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
-        deleteBtn.setOnAction(e -> {
-            if (getParent() != null) {
-                ((VBox) getParent()).getChildren().remove(this);
-            }
-        });
-
-        container.getChildren().addAll(varZone, eqLabel, valueZone, deleteBtn);
+        container.getChildren().addAll(
+                varZone = new DropZone("variable", "var"),
+                eq,
+                valueZone = new DropZone("expression", "value"),
+                deleteBtn
+        );
         getChildren().add(container);
     }
+
+    private javafx.scene.control.Button createDeleteButton() {
+        javafx.scene.control.Button btn = new javafx.scene.control.Button("✕");
+        btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
+
+        // Hover effects
+        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-font-size: 10px;"));
+        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px;"));
+
+        return btn;
+    }
+
 
     @Override
     public Statement buildStatement() {
