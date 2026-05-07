@@ -1,11 +1,9 @@
 package com.example.demo.gui.blocks;
 
 import com.example.demo.classes.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 public class ValueBlock extends Block {
 
@@ -19,23 +17,16 @@ public class ValueBlock extends Block {
         valueField.setPrefWidth(40);
         valueField.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: #B5CEA8; -fx-font-family: 'Consolas';");
 
-        Button deleteBtn = getDeleteBtn();
-
-        container.getChildren().addAll(valueField, deleteBtn);
-        getChildren().add(container);
-    }
-
-    private @NotNull Button getDeleteBtn() {
-        Button deleteBtn = new Button("✕");
-        deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-cursor: hand;");
-        deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white;"));
-        deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
+        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
         deleteBtn.setOnAction(e -> {
             if (getParent() != null) {
                 ((VBox) getParent()).getChildren().remove(this);
             }
         });
-        return deleteBtn;
+
+        container.getChildren().addAll(valueField, deleteBtn);
+        getChildren().add(container);
     }
 
     @Override

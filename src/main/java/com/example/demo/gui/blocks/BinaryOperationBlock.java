@@ -1,16 +1,10 @@
 package com.example.demo.gui.blocks;
 
 import com.example.demo.classes.*;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 public class BinaryOperationBlock extends Block {
 
@@ -20,64 +14,43 @@ public class BinaryOperationBlock extends Block {
 
     public BinaryOperationBlock() {
         super();
-        // Accent: Magenta/Purple
-        setStyle(getStyle() + "-fx-background-color: #352a3d; -fx-border-color: #c586c0;");
 
-        Label title = new Label("MATH OPERATION");
-        title.setStyle("-fx-text-fill: #c586c0; -fx-font-size: 12px; -fx-font-weight: bold;");
+        VBox container = new VBox(5);
 
-        HBox slots = new HBox(8);
-        slots.setAlignment(Pos.CENTER);
+        Label title = new Label("BINARY OPERATION");
+        title.setStyle("-fx-text-fill: #CE9178; -fx-font-size: 10px;");
+
+        HBox slots = new HBox(5);
+        slots.setAlignment(javafx.geometry.Pos.CENTER);
 
         leftZone = new DropZone("expression", "left");
-        rightZone = new DropZone("expression", "right");
+        leftZone.setMinWidth(80);
 
         operatorBox = new ComboBox<>();
         operatorBox.getItems().addAll("+", "-", "*", "/");
         operatorBox.setValue("+");
+        operatorBox.setPrefWidth(60);
+        operatorBox.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: #4EC9B0;");
 
-        operatorBox.setButtonCell(new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item);
-                    setStyle("-fx-text-fill: white;");
-                }
+        rightZone = new DropZone("expression", "right");
+        rightZone.setMinWidth(80);
+
+        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
+        deleteBtn.setOnAction(e -> {
+            if (getParent() != null) {
+                ((VBox) getParent()).getChildren().remove(this);
             }
         });
 
-        operatorBox.setPrefWidth(70);
-
-        operatorBox.setStyle("-fx-background-color: #1e1e1e; " +
-                "-fx-border-color: #3e3e42; " +
-                "-fx-border-radius: 3;");
-
         slots.getChildren().addAll(leftZone, operatorBox, rightZone);
 
-        javafx.scene.control.Button deleteBtn = createDeleteButton();
-        deleteBtn.setOnAction(e -> { if (getParent() != null) ((VBox) getParent()).getChildren().remove(this); });
-
         HBox header = new HBox(10);
-        header.getChildren().addAll(title, new Region(), deleteBtn);
-        HBox.setHgrow(header.getChildren().get(1), Priority.ALWAYS);
+        header.getChildren().addAll(title, deleteBtn);
 
-        getChildren().addAll(header, slots);
+        container.getChildren().addAll(header, slots);
+        getChildren().add(container);
     }
-
-    private javafx.scene.control.Button createDeleteButton() {
-        javafx.scene.control.Button btn = new javafx.scene.control.Button("✕");
-        btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
-
-        // Hover effects
-        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-font-size: 10px;"));
-        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px;"));
-
-        return btn;
-    }
-
 
     @Override
     public Expression buildExpression() {

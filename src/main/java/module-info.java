@@ -5,7 +5,6 @@ module com.example.demo {
     requires java.sql;
     requires matheclipse.core;
     requires mysql.connector.j;
-    requires org.jetbrains.annotations;
 
 
     opens com.example.demo to javafx.fxml;

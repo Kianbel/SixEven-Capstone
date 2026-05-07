@@ -2,16 +2,10 @@ package com.example.demo.gui.blocks;
 
 import com.example.demo.classes.*;
 import com.example.demo.gui.dragdrop.BlockTransfer;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 public class RightUpperBoundBlock extends Block {
 
@@ -22,69 +16,59 @@ public class RightUpperBoundBlock extends Block {
 
     public RightUpperBoundBlock() {
         super();
-        setStyle(getStyle() + "-fx-background-color: #1e2a3a; -fx-border-color: #4da6ff;");
+        this.transfer = BlockTransfer.getInstance();
+
+        VBox container = new VBox(5);
+        container.setStyle("-fx-background-color: #2d2d30; -fx-border-radius: 5; -fx-padding: 5;");
+
+        Label title = new Label("RIGHT UPPER BOUND");
+        title.setStyle("-fx-text-fill: #4EC9B0; -fx-font-size: 10px; -fx-font-weight: bold;");
 
         HBox slots = new HBox(10);
-        slots.setAlignment(Pos.CENTER_LEFT);
+        slots.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
+        // Iterator slot (left side)
+        VBox iterSlot = new VBox(3);
+        Label iterLabel = new Label("iterator");
+        iterLabel.setStyle("-fx-text-fill: #858585; -fx-font-size: 9px;");
+        iteratorZone = new DropZone("variable", "drop variable");
+        iteratorZone.setMinWidth(80);
+        iterSlot.getChildren().addAll(iterLabel, iteratorZone);
+
+        // Comparator combo box
         comparator = new ComboBox<>();
         comparator.getItems().addAll("<", "<=");
         comparator.setValue("<");
-        comparator.setButtonCell(new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item);
-                    setStyle("-fx-text-fill: white;");
-                }
+        comparator.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: #4EC9B0; " +
+                "-fx-border-color: #3e3e42; -fx-border-radius: 3;");
+        comparator.setPrefWidth(60);
+
+        // Bound slot (right side) - accepts ANY expression
+        VBox boundSlot = new VBox(3);
+        Label boundLabel = new Label("upper bound (expression)");
+        boundLabel.setStyle("-fx-text-fill: #858585; -fx-font-size: 9px;");
+        boundZone = new DropZone("expression", "drop expression");
+        boundZone.setMinWidth(100);
+        boundSlot.getChildren().addAll(boundLabel, boundZone);
+
+        slots.getChildren().addAll(iterSlot, comparator, boundSlot);
+
+        // Delete button
+        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
+        deleteBtn.setOnAction(e -> {
+            if (getParent() != null) {
+                ((VBox) getParent()).getChildren().remove(this);
             }
         });
 
-        comparator.setStyle("-fx-background-color: #1e1e1e; " +
-                "-fx-border-color: #3e3e42; " +
-                "-fx-border-radius: 3;");
-
-        slots.getChildren().addAll(
-                createLabeledSlot("iterator", iteratorZone = new DropZone("variable", "var")),
-                comparator,
-                createLabeledSlot("bound", boundZone = new DropZone("expression", "expr"))
-        );
-
-        javafx.scene.control.Button deleteBtn = createDeleteButton();
-        deleteBtn.setOnAction(e -> { if (getParent() != null) ((VBox) getParent()).getChildren().remove(this); });
-
-        Label title = new Label("LIMIT");
-        title.setStyle("-fx-text-fill: #4da6ff; -fx-font-weight: bold; -fx-font-size: 12px;");
-
         HBox header = new HBox(10);
-        header.getChildren().addAll(title, new Region(), deleteBtn);
-        HBox.setHgrow(header.getChildren().get(1), Priority.ALWAYS);
+        header.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+        header.getChildren().addAll(title, deleteBtn);
+        HBox.setHgrow(title, javafx.scene.layout.Priority.ALWAYS);
 
-        getChildren().addAll(header, slots);
-    }
-
-    private javafx.scene.control.Button createDeleteButton() {
-        javafx.scene.control.Button btn = new javafx.scene.control.Button("✕");
-        btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
-
-        // Hover effects
-        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-font-size: 10px;"));
-        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px;"));
-
-        return btn;
-    }
-
-    // Cleaner slot labeling
-    private VBox createLabeledSlot(String text, DropZone zone) {
-        VBox slot = new VBox(3);
-        Label l = new Label(text);
-        l.setStyle("-fx-text-fill: #858585; -fx-font-size: 9px; -fx-font-weight: bold; -fx-text-transform: uppercase;");
-        zone.setMinWidth(70);
-        slot.getChildren().addAll(l, zone);
-        return slot;
+        container.getChildren().addAll(header, slots);
+        getChildren().add(container);
     }
 
     @Override

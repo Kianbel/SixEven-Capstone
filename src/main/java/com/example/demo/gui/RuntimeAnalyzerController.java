@@ -139,81 +139,67 @@ public class RuntimeAnalyzerController {
         fade.play();
     }
 
-    private Label addLabel(String message) {
+    private Label addLabel(String message){
         Label l = new Label(message);
-        l.setStyle("-fx-text-fill: #dcdcdc; -fx-font-weight: bold; -fx-font-family: 'Segoe UI';");
+        l.setStyle("-fx-text-fill: #000000; -fx-font-weight: bold;");
         return l;
     }
 
     private Node createActualBlock(String type) {
         VBox blockBase = new VBox(5);
-        blockBase.setPrefWidth(1100);
+        blockBase.setPrefWidth(1200);
         blockBase.setMaxWidth(Double.MAX_VALUE);
-        blockBase.setPadding(new Insets(10));
-
-        String baseStyle = "-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-width: 1; ";
-
+        blockBase.setPadding(new Insets(5));
+        blockBase.setStyle("-fx-border-color: #444; -fx-border-radius: 5; -fx-background-radius: 5;");
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
 
-
-        String fieldStyle = "-fx-background-color: rgba(0,0,0,0.2); -fx-text-fill: white; -fx-background-radius: 3; -fx-border-color: #3e3e42; -fx-border-radius: 3;";
-
         switch (type) {
             case "Var" -> {
-                // Orange kinda
-                blockBase.setStyle(baseStyle + "-fx-background-color: #3e372e; -fx-border-color: #ffb74d;");
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #FFCC80;");
                 TextField name = new TextField("n");
                 name.setPrefWidth(60);
-                name.setStyle(fieldStyle);
                 header.getChildren().addAll(addLabel("Declare"), name);
                 blockBase.setUserData(new BlockData("Var", name, null, null, null, null, null));
             }
             case "Array" -> {
-                // Corsola
-                blockBase.setStyle(baseStyle + "-fx-background-color: #3e2d2d; -fx-border-color: #ef9a9a;");
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #FFAB91;");
                 TextField name = new TextField("A");
-                name.setPrefWidth(50); name.setStyle(fieldStyle);
+                name.setPrefWidth(50);
                 TextField size = new TextField("10");
-                size.setPrefWidth(50); size.setStyle(fieldStyle);
+                size.setPrefWidth(50);
                 header.getChildren().addAll(addLabel("Array"), name, addLabel("["), size, addLabel("]"));
                 blockBase.setUserData(new BlockData("Array", name, size, null, null, null, null));
             }
             case "Init" -> {
-                // Light Green
-                blockBase.setStyle(baseStyle + "-fx-background-color: #2d3e2d; -fx-border-color: #a5d6a7;");
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #C5E1A5;");
                 TextField varName = new TextField("sum");
-                varName.setPrefWidth(60); varName.setStyle(fieldStyle);
+                varName.setPrefWidth(60);
                 TextField val = new TextField("0");
-                val.setPrefWidth(60); val.setStyle(fieldStyle);
+                val.setPrefWidth(60);
                 header.getChildren().addAll(addLabel("Set"), varName, addLabel("="), val);
                 blockBase.setUserData(new BlockData("Init", varName, val, null, null, null, null));
             }
             case "For" -> {
-                // Blue
-                blockBase.setStyle(baseStyle + "-fx-background-color: #25313e; -fx-border-color: #90caf9;");
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #90CAF9;");
 
-                TextField iter  = new TextField("i");  iter.setPrefWidth(40); iter.setStyle(fieldStyle);
-                TextField start = new TextField("0");   start.setPrefWidth(40); start.setStyle(fieldStyle);
-                TextField limit = new TextField("n");   limit.setPrefWidth(60); limit.setStyle(fieldStyle);
-                TextField step  = new TextField("1");   step.setPrefWidth(40); step.setStyle(fieldStyle);
-
+                TextField iter  = new TextField("i");  iter.setPrefWidth(30);
+                TextField start = new TextField("0");   start.setPrefWidth(40);
+                TextField limit = new TextField("n");   limit.setPrefWidth(60);
+                TextField step  = new TextField("1");   step.setPrefWidth(40);
                 ComboBox<String> isEq = new ComboBox<>();
                 isEq.getItems().addAll("<", "≤");
                 isEq.setValue("<");
-                isEq.setPrefWidth(65);
-                isEq.setStyle("-fx-background-color: #3e3e42; -fx-text-fill: white;");
+                isEq.setPrefWidth(55);
 
-                VBox innerBody = new VBox(8);
+                VBox innerBody = new VBox(5);
                 innerBody.setPadding(new Insets(10, 10, 10, 30));
-
-                innerBody.setStyle("-fx-border-color: #90caf9; -fx-border-width: 0 0 0 2; -fx-min-height: 50;");
+                innerBody.setStyle("-fx-border-color: #64B5F6; -fx-border-width: 0 0 0 4; -fx-min-height: 40;");
 
                 MenuButton addMenu = new MenuButton("+");
-                addMenu.setStyle("-fx-background-color: #007acc; -fx-text-fill: white; -fx-background-radius: 15;");
                 addMenuOption(addMenu,"Initialize","Init",innerBody);
                 addMenuOption(addMenu,"Nested For","For",innerBody);
-                addMenuOption(addMenu,"Increment","Inc",innerBody);
+                addMenuOption(addMenu,"IncrementPostFix","Inc",innerBody);
                 addMenuOption(addMenu,"Decrement","Dec",innerBody);
                 addMenuOption(addMenu,"Indexing","Indexing",innerBody);
                 addMenuOption(addMenu,"Recursion","Recursion",innerBody);
@@ -222,58 +208,53 @@ public class RuntimeAnalyzerController {
                 blockBase.getChildren().add(innerBody);
                 blockBase.setUserData(new BlockData("For", iter, limit, step, start, isEq, innerBody));
             }
-            case "Inc", "Dec" -> {
-                // Purple
-                blockBase.setStyle(baseStyle + "-fx-background-color: #362d3e; -fx-border-color: #ce93d8;");
+            case "Inc" -> {
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #CE93D8;");
                 TextField varName = new TextField("i");
-                varName.setPrefWidth(50); varName.setStyle(fieldStyle);
-                String symbol = type.equals("Inc") ? "++" : "--";
-                header.getChildren().addAll(varName, addLabel(symbol));
-                blockBase.setUserData(new BlockData(type, varName, null, null, null, null, null));
+                varName.setPrefWidth(50);
+                header.getChildren().addAll(varName, addLabel("++"));
+                blockBase.setUserData(new BlockData("Inc", varName, null, null, null, null, null));
+            }
+            case "Dec" -> {
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #CE93D8;");
+                TextField varName = new TextField("i");
+                varName.setPrefWidth(50);
+                header.getChildren().addAll(varName, addLabel("--"));
+                blockBase.setUserData(new BlockData("Dec", varName, null, null, null, null, null));
             }
             case "Indexing" -> {
-                // Cyan
-                blockBase.setStyle(baseStyle + "-fx-background-color: #253e3e; -fx-border-color: #80deea;");
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #80DEEA;");
                 TextField arr = new TextField("A");
-                arr.setPrefWidth(40); arr.setStyle(fieldStyle);
+                arr.setPrefWidth(40);
                 TextField idx = new TextField("i");
-                idx.setPrefWidth(40); idx.setStyle(fieldStyle);
+                idx.setPrefWidth(40);
                 header.getChildren().addAll(addLabel("Access"), arr, addLabel("["), idx, addLabel("] ++"));
                 blockBase.setUserData(new BlockData("Indexing", arr, idx, null, null, null, null));
             }
             case "Recursion" -> {
-                // Pink
-                blockBase.setStyle(baseStyle + "-fx-background-color: #3e2d35; -fx-border-color: #f48fb1;");
+                blockBase.setStyle(blockBase.getStyle() + "-fx-background-color: #F48FB1;");
                 TextField name = new TextField("solve");
-                name.setPrefWidth(80); name.setStyle(fieldStyle);
+                name.setPrefWidth(80);
                 TextField arg  = new TextField("n-1");
-                arg.setPrefWidth(60); arg.setStyle(fieldStyle);
+                arg.setPrefWidth(60);
+                // base case: when n == this value, recursion stops
                 TextField base = new TextField("0");
-                base.setPrefWidth(40); base.setStyle(fieldStyle);
+                base.setPrefWidth(40);
                 header.getChildren().addAll(
                         addLabel("Recurse"), name,
                         addLabel("("), arg, addLabel(")"),
-                        addLabel("  base: n ≤"), base
+                        addLabel("  base case: n ≤"), base
                 );
                 blockBase.setUserData(new BlockData("Recursion", name, arg, base, null, null, null));
             }
         }
 
-        // Delete Button Style
         Button del = new Button("✕");
-        del.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-cursor: hand; -fx-font-weight: bold;");
-        del.setOnMouseEntered(e -> del.setStyle("-fx-background-color: #e81123; -fx-text-fill: white;"));
-        del.setOnMouseExited(e -> del.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
-
         del.setOnAction(e -> {
             if (blockBase.getParent() instanceof Pane p)
                 p.getChildren().remove(blockBase);
         });
-
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        header.getChildren().addAll(spacer, del);
-
+        header.getChildren().add(del);
         blockBase.getChildren().add(0, header);
         return blockBase;
     }
