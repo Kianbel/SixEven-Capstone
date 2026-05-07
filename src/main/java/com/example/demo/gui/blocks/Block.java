@@ -9,13 +9,8 @@ public abstract class Block extends VBox {
     protected BlockTransfer transfer;
 
     public Block() {
-        setStyle("-fx-background-color: #252526; " +
-                "-fx-border-color: #3e3e42; " +
-                "-fx-border-radius: 5; " +
-                "-fx-background-radius: 5; " +
-                "-fx-padding: 10; " +
-                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);");
-        setSpacing(8);
+        setStyle("-fx-background-color: #2d2d30; -fx-border-color: #555; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 8;");
+        setSpacing(5);
         transfer = BlockTransfer.getInstance();
     }
 

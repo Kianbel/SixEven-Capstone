@@ -1,13 +1,11 @@
 package com.example.demo.gui.blocks;
 
 import com.example.demo.classes.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 public class VariableBlock extends Block {
 
@@ -19,36 +17,42 @@ public class VariableBlock extends Block {
     public VariableBlock(Variable masterVariable) {
         super();
         this.masterVariable = masterVariable;
-        // Pill shape design
-        setStyle("-fx-background-color: #1e1e1e; -fx-border-color: #e1ad01; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 5 12 5 12;");
 
-        HBox container = new HBox(8);
+        HBox container = new HBox(5);
         container.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
         nameLabel = new Label(masterVariable.toString());
         nameLabel.setStyle("-fx-text-fill: #CE9178; -fx-font-family: 'Consolas'; -fx-font-weight: bold;");
 
-        javafx.scene.control.Button deleteBtn = createDeleteButton();
+        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
         deleteBtn.setOnAction(e -> {
-            if (declarationBlock != null) declarationBlock.unlinkVariableBlock(this);
-            if (getParent() != null) ((VBox) getParent()).getChildren().remove(this);
+            if (declarationBlock != null) {
+                declarationBlock.unlinkVariableBlock(this);
+            }
+            if (getParent() != null) {
+                ((VBox) getParent()).getChildren().remove(this);
+            }
         });
 
         container.getChildren().addAll(nameLabel, deleteBtn);
         getChildren().add(container);
+
+        // Context menu for navigation
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem goToDeclaration = new MenuItem("Go to Declaration");
+        goToDeclaration.setOnAction(e -> {
+            if (declarationBlock != null) {
+                declarationBlock.requestFocus();
+                // Scroll to declaration (optional)
+            }
+        });
+        contextMenu.getItems().add(goToDeclaration);
+        setOnContextMenuRequested(event -> {
+            contextMenu.show(this, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
     }
-
-    private javafx.scene.control.Button createDeleteButton() {
-        javafx.scene.control.Button btn = new javafx.scene.control.Button("✕");
-        btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
-
-        // Hover effects
-        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-font-size: 10px;"));
-        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px;"));
-
-        return btn;
-    }
-
 
     public void setDeclarationBlock(DeclarationBlock block) {
         this.declarationBlock = block;

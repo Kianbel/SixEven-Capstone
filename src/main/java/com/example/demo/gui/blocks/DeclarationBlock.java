@@ -6,7 +6,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,46 +21,54 @@ public class DeclarationBlock extends Block {
 
     public DeclarationBlock() {
         super();
-        masterVariable = new Variable("x");
-        // Accent: Amber/Gold
-        setStyle(getStyle() + "-fx-background-color: #3d362a; -fx-border-color: #e1ad01;");
 
-        HBox container = new HBox(8);
+        // Create the master Variable
+        masterVariable = new Variable("x");
+
+        HBox container = new HBox(5);
         container.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
         typeLabel = new Label("var");
-        typeLabel.setStyle("-fx-text-fill: #e1ad01; -fx-font-weight: bold; -fx-font-family: 'Consolas';");
+        typeLabel.setStyle("-fx-text-fill: #4EC9B0; -fx-font-weight: bold;");
 
         varName = new TextField("x");
-        varName.setPrefWidth(80);
-        varName.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: #CE9178; -fx-border-color: #555; -fx-border-radius: 3; -fx-font-family: 'Consolas';");
+        varName.setPrefWidth(60);
+        varName.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: #CE9178; -fx-font-family: 'Consolas';");
 
-        Button deleteBtn = createDeleteButton();
+        // Update master variable when text changes
+        varName.textProperty().addListener((obs, old, newName) -> {
+            if (!isLocked && masterVariable != null) {
+                // Update the master variable
+                masterVariable = new Variable(newName); // Variable stores String name
+                // Update all linked VariableBlocks to show the new name
+                for (VariableBlock vb : linkedVariableBlocks) {
+                    vb.updateVariableReference(masterVariable);
+                }
+            }
+        });
+
+        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
         deleteBtn.setOnAction(e -> {
             if (getParent() != null) {
+                // Remove all linked VariableBlocks first
                 for (VariableBlock vb : new ArrayList<>(linkedVariableBlocks)) {
-                    if (vb.getParent() != null) ((VBox) vb.getParent()).getChildren().remove(vb);
+                    if (vb.getParent() != null) {
+                        ((VBox) vb.getParent()).getChildren().remove(vb);
+                    }
                 }
                 ((VBox) getParent()).getChildren().remove(this);
             }
         });
 
         lockIcon = new Label("🔓");
-        lockIcon.setStyle("-fx-text-fill: #858585;");
+        lockIcon.setStyle("-fx-text-fill: #858585; -fx-font-size: 10px;");
 
         container.getChildren().addAll(typeLabel, varName, lockIcon, deleteBtn);
         getChildren().add(container);
-    }
 
-    private Button createDeleteButton() {
-        javafx.scene.control.Button btn = new javafx.scene.control.Button("✕");
-        btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
-
-        // Hover effects
-        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-font-size: 10px;"));
-        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px;"));
-
-        return btn;
+        setupContextMenu();
+        setupLongPress();
     }
 
     private void setupContextMenu() {

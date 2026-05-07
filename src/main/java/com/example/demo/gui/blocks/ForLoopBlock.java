@@ -2,16 +2,10 @@ package com.example.demo.gui.blocks;
 
 import com.example.demo.classes.*;
 import com.example.demo.gui.dragdrop.BlockTransfer;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 public class ForLoopBlock extends Block {
 
@@ -23,54 +17,58 @@ public class ForLoopBlock extends Block {
 
     public ForLoopBlock() {
         super();
-        // Accent: Bright Blue
-        setStyle(getStyle() + "-fx-background-color: #1e2a3a; -fx-border-color: #4da6ff;");
+        this.transfer = BlockTransfer.getInstance();
 
         Label title = new Label("FOR LOOP");
-        title.setStyle("-fx-text-fill: #4da6ff; -fx-font-weight: bold; -fx-font-size: 12px;");
+        title.setStyle("-fx-text-fill: #90CAF9; -fx-font-weight: bold;");
 
-        HBox paramsRow = new HBox(12);
-        paramsRow.setPadding(new Insets(5, 0, 5, 0));
+        HBox paramsRow = new HBox(10);
 
-        VBox initSlot = createLabeledSlot("initialize", initZone = new DropZone("initialization", "start"));
-        VBox condSlot = createLabeledSlot("condition", conditionZone = new DropZone("bound", "limit"));
-        VBox incSlot = createLabeledSlot("step", incrementZone = new DropZone("assignment", "update"));
+        // INIT slot - specifically for Initialization
+        VBox initSlot = new VBox(5);
+        initSlot.getChildren().addAll(
+                new Label("INIT:"),
+                initZone = new DropZone("initialization", "Drop Initialization here")
+        );
+
+        // CONDITION slot
+        VBox condSlot = new VBox(5);
+        condSlot.getChildren().addAll(
+                new Label("CONDITION:"),
+                conditionZone = new DropZone("bound", "Drop Bound here")
+        );
+
+        // INCREMENT slot
+        VBox incSlot = new VBox(5);
+        incSlot.getChildren().addAll(
+                new Label("INCREMENT:"),
+                incrementZone = new DropZone("assignment", "Drop Assignment here")
+        );
 
         paramsRow.getChildren().addAll(initSlot, condSlot, incSlot);
 
+        // Body zone
+        Label bodyLabel = new Label("BODY:");
+        bodyLabel.setStyle("-fx-text-fill: #90CAF9;");
         bodyZone = new VBox(8);
-        bodyZone.setStyle("-fx-border-color: #4da6ff; -fx-border-width: 0 0 0 3; -fx-padding: 10 0 10 20; -fx-min-height: 60; -fx-background-color: rgba(77, 166, 255, 0.05);");
+        bodyZone.setStyle("-fx-border-color: #64B5F6; -fx-border-width: 0 0 0 3; -fx-padding: 10 0 10 15; -fx-min-height: 80;");
 
-        javafx.scene.control.Button deleteBtn = createDeleteButton();
-        deleteBtn.setOnAction(e -> { if (getParent() != null) ((VBox) getParent()).getChildren().remove(this); });
+        // Setup body drop zone using BlockTransfer
+        setupBodyDropZone();
+
+        // Delete button
+        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white;");
+        deleteBtn.setOnAction(e -> {
+            if (getParent() != null) {
+                ((VBox) getParent()).getChildren().remove(this);
+            }
+        });
 
         HBox header = new HBox(10);
-        header.setAlignment(Pos.CENTER_LEFT);
-        header.getChildren().addAll(title, new Region(), deleteBtn);
-        HBox.setHgrow(header.getChildren().get(1), Priority.ALWAYS);
+        header.getChildren().addAll(title, deleteBtn);
 
-        getChildren().addAll(header, paramsRow, bodyZone);
-    }
-
-    private javafx.scene.control.Button createDeleteButton() {
-        javafx.scene.control.Button btn = new javafx.scene.control.Button("✕");
-        btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
-
-        // Hover effects
-        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-font-size: 10px;"));
-        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px;"));
-
-        return btn;
-    }
-
-    // Cleaner slot labeling
-    private VBox createLabeledSlot(String text, DropZone zone) {
-        VBox slot = new VBox(3);
-        Label l = new Label(text);
-        l.setStyle("-fx-text-fill: #858585; -fx-font-size: 9px; -fx-font-weight: bold; -fx-text-transform: uppercase;");
-        zone.setMinWidth(70);
-        slot.getChildren().addAll(l, zone);
-        return slot;
+        getChildren().addAll(header, paramsRow, new Separator(), bodyLabel, bodyZone);
     }
 
     private void setupBodyDropZone() {
