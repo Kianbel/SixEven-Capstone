@@ -18,14 +18,28 @@ public class VariableBlock extends Block {
         super();
         this.masterVariable = masterVariable;
 
-        HBox container = new HBox(5);
+        setStyle("-fx-background-color: #2d2a24; " +
+                "-fx-border-color: #FFB86C; " +
+                "-fx-border-width: 1.5; " +
+                "-fx-background-radius: 8; " +
+                "-fx-border-radius: 8; " +
+                "-fx-padding: 10; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 4);");
+
+
+        HBox container = new HBox(8);
         container.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
         nameLabel = new Label(masterVariable.toString());
-        nameLabel.setStyle("-fx-text-fill: #CE9178; -fx-font-family: 'Consolas'; -fx-font-weight: bold;");
+        nameLabel.setStyle("-fx-text-fill: #FFB86C; -fx-font-weight: bold; -fx-font-family: 'Consolas'; -fx-font-size: 13px;");
+
 
         javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
-        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
+        deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
+
+        deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-font-size: 10px; -fx-background-radius: 10;"));
+        deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px;"));
+
         deleteBtn.setOnAction(e -> {
             if (declarationBlock != null) {
                 declarationBlock.unlinkVariableBlock(this);
@@ -38,13 +52,13 @@ public class VariableBlock extends Block {
         container.getChildren().addAll(nameLabel, deleteBtn);
         getChildren().add(container);
 
-        // Context menu for navigation
         ContextMenu contextMenu = new ContextMenu();
         MenuItem goToDeclaration = new MenuItem("Go to Declaration");
+
+
         goToDeclaration.setOnAction(e -> {
             if (declarationBlock != null) {
                 declarationBlock.requestFocus();
-                // Scroll to declaration (optional)
             }
         });
         contextMenu.getItems().add(goToDeclaration);

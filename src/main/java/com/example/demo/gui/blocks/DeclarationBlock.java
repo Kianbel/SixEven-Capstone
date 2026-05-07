@@ -5,6 +5,8 @@ import com.example.demo.gui.dragdrop.BlockTransfer;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -22,25 +24,35 @@ public class DeclarationBlock extends Block {
     public DeclarationBlock() {
         super();
 
-        // Create the master Variable
+        setStyle("-fx-background-color: #2d2a24; " +
+                "-fx-border-color: #FFB86C; " +
+                "-fx-border-width: 1.5; " +
+                "-fx-background-radius: 8; " +
+                "-fx-border-radius: 8; " +
+                "-fx-padding: 10; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 4);");
+
         masterVariable = new Variable("x");
 
-        HBox container = new HBox(5);
+        HBox container = new HBox(10); // More room for components
         container.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
+
         typeLabel = new Label("var");
-        typeLabel.setStyle("-fx-text-fill: #4EC9B0; -fx-font-weight: bold;");
+        typeLabel.setStyle("-fx-text-fill: #FFB86C; -fx-font-weight: bold; -fx-font-family: 'Consolas'; -fx-font-size: 13px;");
 
+        // TextField styled to look like an integrated input
         varName = new TextField("x");
-        varName.setPrefWidth(60);
-        varName.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: #CE9178; -fx-font-family: 'Consolas';");
+        varName.setPrefWidth(80);
+        varName.setStyle("-fx-background-color: #1e1e1e; " +
+                "-fx-text-fill: #CE9178; " +
+                "-fx-border-color: #444; " +
+                "-fx-border-radius: 4; " +
+                "-fx-font-family: 'Consolas';");
 
-        // Update master variable when text changes
         varName.textProperty().addListener((obs, old, newName) -> {
             if (!isLocked && masterVariable != null) {
-                // Update the master variable
-                masterVariable = new Variable(newName); // Variable stores String name
-                // Update all linked VariableBlocks to show the new name
+                masterVariable = new Variable(newName);
                 for (VariableBlock vb : linkedVariableBlocks) {
                     vb.updateVariableReference(masterVariable);
                 }
@@ -48,10 +60,12 @@ public class DeclarationBlock extends Block {
         });
 
         javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
-        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
+        deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
+        deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
+        deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
+
         deleteBtn.setOnAction(e -> {
             if (getParent() != null) {
-                // Remove all linked VariableBlocks first
                 for (VariableBlock vb : new ArrayList<>(linkedVariableBlocks)) {
                     if (vb.getParent() != null) {
                         ((VBox) vb.getParent()).getChildren().remove(vb);
@@ -62,9 +76,12 @@ public class DeclarationBlock extends Block {
         });
 
         lockIcon = new Label("🔓");
-        lockIcon.setStyle("-fx-text-fill: #858585; -fx-font-size: 10px;");
+        lockIcon.setStyle("-fx-text-fill: #858585; -fx-font-size: 12px;");
 
-        container.getChildren().addAll(typeLabel, varName, lockIcon, deleteBtn);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        container.getChildren().addAll(typeLabel, varName, spacer, lockIcon, deleteBtn);
         getChildren().add(container);
 
         setupContextMenu();

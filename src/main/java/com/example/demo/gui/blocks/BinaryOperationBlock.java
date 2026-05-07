@@ -1,9 +1,13 @@
 package com.example.demo.gui.blocks;
 
 import com.example.demo.classes.*;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class BinaryOperationBlock extends Block {
@@ -15,13 +19,22 @@ public class BinaryOperationBlock extends Block {
     public BinaryOperationBlock() {
         super();
 
-        VBox container = new VBox(5);
+        setStyle("-fx-background-color: #25202b; " +
+                "-fx-border-color: #C678DD; " +
+                "-fx-border-width: 1.5; " +
+                "-fx-background-radius: 8; " +
+                "-fx-border-radius: 8; " +
+                "-fx-padding: 10; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 4);");
+
+        VBox container = new VBox(8); // Slightly increased spacing for better breathing room
+        container.setStyle("-fx-background-color: transparent;");
 
         Label title = new Label("BINARY OPERATION");
-        title.setStyle("-fx-text-fill: #CE9178; -fx-font-size: 10px;");
+        title.setStyle("-fx-text-fill: #C678DD; -fx-font-size: 12px; -fx-font-weight: bold; -fx-font-family: 'Consolas';");
 
-        HBox slots = new HBox(5);
-        slots.setAlignment(javafx.geometry.Pos.CENTER);
+        HBox slots = new HBox(10);
+        slots.setAlignment(Pos.CENTER_LEFT);
 
         leftZone = new DropZone("expression", "left");
         leftZone.setMinWidth(80);
@@ -29,14 +42,33 @@ public class BinaryOperationBlock extends Block {
         operatorBox = new ComboBox<>();
         operatorBox.getItems().addAll("+", "-", "*", "/");
         operatorBox.setValue("+");
-        operatorBox.setPrefWidth(60);
-        operatorBox.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: #4EC9B0;");
+        operatorBox.setPrefWidth(65);
 
+        operatorBox.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: white; " +
+                "-fx-border-color: #444; -fx-border-radius: 4; -fx-font-family: 'Consolas';");
+
+        operatorBox.setButtonCell(new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-text-fill: white; -fx-background-color: transparent;");
+                }
+            }
+        });
+
+        // Functional Code (Untouched)
         rightZone = new DropZone("expression", "right");
         rightZone.setMinWidth(80);
 
         javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
-        deleteBtn.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 8px;");
+        deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
+        deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
+        deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
+
         deleteBtn.setOnAction(e -> {
             if (getParent() != null) {
                 ((VBox) getParent()).getChildren().remove(this);
@@ -46,7 +78,12 @@ public class BinaryOperationBlock extends Block {
         slots.getChildren().addAll(leftZone, operatorBox, rightZone);
 
         HBox header = new HBox(10);
-        header.getChildren().addAll(title, deleteBtn);
+        header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        header.getChildren().addAll(title, spacer, deleteBtn);
 
         container.getChildren().addAll(header, slots);
         getChildren().add(container);
