@@ -15,6 +15,11 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 public class RuntimeAnalyzerController {
 
     @FXML private Button calculateButton;
@@ -29,6 +34,14 @@ public class RuntimeAnalyzerController {
     @FXML private void onAddDec(){ workspace.getChildren().add(createActualBlock("Dec")); }
     @FXML private void onAddIndexing(){ workspace.getChildren().add(createActualBlock("Indexing")); }
     @FXML private void onAddRecursion(){ workspace.getChildren().add(createActualBlock("Recursion")); }
+
+    private User currentUser = null;
+
+    @FXML
+    private void initialize() {
+        currentUser = deserializeUser();
+        if(currentUser == null) throw new RuntimeException("Error during deserializing user.ser");
+    }
 
     @FXML
     private void onCalculate() {
@@ -80,9 +93,6 @@ public class RuntimeAnalyzerController {
 //            return;
 //        }
 
-        //  Placeholder
-        int userID = 1;
-
         showToast("Saving to database..."); // Immediate feedback
 
         Task<Boolean> saveTask = new Task<>() {
@@ -101,8 +111,7 @@ public class RuntimeAnalyzerController {
                     runtime = (rEnd != -1) ? fullText.substring(rStart, rEnd).trim() : fullText.substring(rStart).trim();
                 }
 
-
-                return DatabaseHandler.saveCode(title, fullText, runtime, language, userID);
+                return DatabaseHandler.saveCode(title, fullText, runtime, language, currentUser.getUid());
                 // TODO: replace when loading user is implemented
 //                return DatabaseHandler.saveCode(title, fullText, runtime, language, currentUser.getUserid());
             }
@@ -368,7 +377,15 @@ public class RuntimeAnalyzerController {
         }
     }
 
-
-
     private record BlockData(String type, TextField f1, TextField f2, TextField f3, TextField f4, ComboBox<String> isEqualCheck, VBox innerContainer) {}
+
+    private User deserializeUser() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("user.ser"))) {
+            return (User) ois.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

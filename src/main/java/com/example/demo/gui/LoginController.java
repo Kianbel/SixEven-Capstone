@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -92,11 +93,12 @@ public class LoginController {
     private void navigateToEditor() {
         System.out.println("navigated to editor");
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getResource("/com/example/demo/modular-view.fxml")
-            ));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/modular-view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
             Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-            stage.getScene().setRoot(root);
+            stage.setScene(scene);
+            stage.sizeToScene();
             stage.setTitle("Runtime Analyzer");
 
         } catch (IOException e) {

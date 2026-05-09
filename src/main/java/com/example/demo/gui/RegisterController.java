@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -95,7 +96,9 @@ public class RegisterController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login_view.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-            stage.getScene().setRoot(root);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.sizeToScene();
             stage.setTitle("Login Page");
 
         } catch (IOException e) {

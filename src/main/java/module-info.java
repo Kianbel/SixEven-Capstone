@@ -7,7 +7,7 @@ module com.example.demo {
     requires mysql.connector.j;
 
 
-    opens com.example.demo to javafx.fxml;
+    opens com.example.demo.classes to javafx.base, javafx.fxml;
     exports com.example.demo.gui;
     opens com.example.demo.gui to javafx.fxml;
 }

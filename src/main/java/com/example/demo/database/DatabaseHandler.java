@@ -1,10 +1,13 @@
 package com.example.demo.database;
 
+import com.example.demo.classes.CodeSnippet;
 import com.example.demo.classes.User;
 import utils.PasswordHasher;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.demo.database.MySQLConnection.*;
 
@@ -84,5 +87,37 @@ public class DatabaseHandler {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static ArrayList<CodeSnippet> getAllCodeSnippets() {
+        ArrayList<CodeSnippet> rows = new ArrayList<>();
+
+        String query = "SELECT tblcode.codeid, tblcode.title, tblcode.code, tblcode.runtime, tblcode.language, tbluser.username, tblcode.datecreated, tblcode.userid " +
+                "FROM tblcode " +
+                "LEFT JOIN tbluser ON tblcode.userid = tbluser.userid";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    int cid = rs.getInt("codeid");
+                    String title = rs.getString("title");
+                    String code = rs.getString("code");
+                    String runtime = rs.getString("runtime");
+                    String language = rs.getString("language");
+                    String createdBy = rs.getString("username");
+                    String dateCreated = rs.getString("datecreated");
+                    int uid = rs.getInt("userid");
+
+                    CodeSnippet codeSnippet = new CodeSnippet(cid, title, code, runtime, language, createdBy, dateCreated, uid);
+                    rows.add(codeSnippet);
+                }
+                return rows;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.gui;
 
 import com.example.demo.classes.*;
+import com.example.demo.database.DatabaseHandler;
 import com.example.demo.gui.blocks.*;
 import com.example.demo.gui.dragdrop.BlockTransfer;
 import javafx.fxml.FXML;
@@ -10,6 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,8 @@ public class ModularController {
     @FXML private TextField newParameterField;
     @FXML private Button addParameterButton;
     @FXML private Button calculateButton;
+
+    private String calculatedRuntime = "";
 
     // Internal state
     private BlockTransfer transfer;
@@ -134,6 +141,7 @@ public class ModularController {
     @FXML
     private void onCalculate() {
         try {
+            calculatedRuntime = "";
             outputArea.setText("Building function...");
 
             Function fn = buildFunctionFromWorkspace();
@@ -191,8 +199,17 @@ public class ModularController {
             showAlert("Error", "Calculate complexity first!");
             return;
         }
+        User user = deserializeUser();
+        if(user == null) throw new RuntimeException("user is null on saving code to database");
 
-        // TODO: Implement save to database
+        String title = functionNameField.getText();
+        String code = outputArea.getText();
+        String runtime = calculatedRuntime;
+        String language = "Java";
+        int userid = user.getUid();
+
+        DatabaseHandler.saveCode(title, code, runtime, language, userid);
+        // TODO: implement saving to database
         showAlert("Saved", "Function saved to database (simulated)");
     }
 
@@ -202,5 +219,14 @@ public class ModularController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private User deserializeUser() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("user.ser"))) {
+            return (User) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
