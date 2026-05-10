@@ -14,12 +14,7 @@
                 <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Code Snippets Repository" />
             <HBox fillHeight="false" prefHeight="1.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="textfieldSearch" maxWidth="300.0" promptText="Filter by keywords" />
-                  <Button fx:id="buttonSearch" mnemonicParsing="false" text="Search">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </Button>
+                  <TextField fx:id="textfieldSearch" prefWidth="300.0" promptText="Search by title" />
                </children>
             </HBox>
             <Label fx:id="labelTotalSnippets" text="[total number] snippets">
@@ -39,6 +34,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                 </TableView>
+            <Button mnemonicParsing="false" onAction="#onReturnToEditor" text="➥ RETURN TO EDITOR" />
             </children>
         </VBox>
     </children>

@@ -4,15 +4,21 @@ import com.example.demo.classes.CodeSnippet;
 import com.example.demo.database.DatabaseHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CodeRepositoryController {
     @FXML private TextField textfieldSearch;
-    @FXML private Button buttonSearch;
     @FXML private Label labelTotalSnippets;
     @FXML private TableView<CodeSnippet> tableRepository;
     @FXML private TableColumn<CodeSnippet, String> colTitle;
@@ -36,8 +42,45 @@ public class CodeRepositoryController {
             rows.addAll(snippets);
         }
 
-        tableRepository.setItems(rows);
+
+        // filter the data based on the search bar with dynamic updating
+        FilteredList<CodeSnippet> filteredData = new FilteredList<>(rows, p -> true);
+        textfieldSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(snippet -> {
+                if(newValue == null || newValue.isEmpty()) return true;
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                return snippet.getTitle().toLowerCase().contains(lowerCaseFilter);
+            });
+
+            labelTotalSnippets.setText(filteredData.size() + " snippets");
+        });
+
+        // wrap in the filteredList around sortedList so users can still sort via columns
+        SortedList<CodeSnippet> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableRepository.comparatorProperty());
+
+        // set the filtered rows to the table
+        tableRepository.setItems(sortedData);
         labelTotalSnippets.setText(rows.size() + " snippets");
+    }
+
+    @FXML
+    private void onReturnToEditor() {
+        System.out.println("navigated to editor");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Editor_view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) labelTotalSnippets.getScene().getWindow();
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setTitle("Runtime Analyzer");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupTitleLink() {

@@ -108,17 +108,18 @@ public class RegisterController {
 
     private void navigateToEditor() {
         System.out.println("navigated to editor");
-           try {
-                Parent root = FXMLLoader.load(Objects.requireNonNull(
-                       getClass().getResource("/com/example/demo/RuntimeAnalyzer_view.fxml")
-               ));
-               Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-                stage.getScene().setRoot(root);
-                stage.setTitle("Runtime Analyzer");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Editor_view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) textfieldUsername.getScene().getWindow();
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setTitle("Runtime Analyzer");
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveSession(User user) {

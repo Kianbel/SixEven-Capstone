@@ -16,11 +16,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class RuntimeAnalyzerController {
+public class OLD_RuntimeAnalyzerController {
 
     @FXML private Button calculateButton;
     @FXML private VBox workspace;

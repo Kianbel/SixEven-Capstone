@@ -5,20 +5,23 @@ import com.example.demo.database.DatabaseHandler;
 import com.example.demo.gui.blocks.*;
 import com.example.demo.gui.dragdrop.BlockTransfer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModularController {
+public class EditorController {
 
     // FXML injected fields
     @FXML private VBox workspace;
@@ -146,15 +149,18 @@ public class ModularController {
 
             Function fn = buildFunctionFromWorkspace();
 
+            String runtime = fn.getRuntime();
+
             StringBuilder result = new StringBuilder();
             result.append("=== GENERATED CODE ===\n\n");
             result.append(fn.toString());
             result.append("\n\n=== COMPLEXITY ANALYSIS ===\n\n");
-            result.append("T(n) = ").append(fn.getRuntime());
+            result.append("T(n) = ").append(runtime);
             result.append("\n\n=== NOTES ===\n");
             result.append("Only '+' operator is guaranteed to work correctly for complexity sums.\n");
             result.append("Other operators may produce inaccurate results.");
 
+            calculatedRuntime = "T(n) = " + runtime;
             outputArea.setText(result.toString());
 
         } catch (Exception e) {
@@ -211,6 +217,40 @@ public class ModularController {
         DatabaseHandler.saveCode(title, code, runtime, language, userid);
         // TODO: implement saving to database
         showAlert("Saved", "Function saved to database (simulated)");
+    }
+
+    @FXML
+    private void onGoToRepository() {
+        System.out.println("navigated to repository");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/CodeRepository_view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) newParameterField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setTitle("Code Repository");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onLogout() {
+        System.out.println("navigated to login");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login_view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) newParameterField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setTitle("Login");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAlert(String title, String content) {

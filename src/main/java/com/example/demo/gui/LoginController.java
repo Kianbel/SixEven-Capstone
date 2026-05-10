@@ -16,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.Objects;
 
 public class LoginController {
     @FXML private Button buttonLogin;
@@ -93,7 +92,7 @@ public class LoginController {
     private void navigateToEditor() {
         System.out.println("navigated to editor");
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/modular-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Editor_view.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) textfieldUsername.getScene().getWindow();

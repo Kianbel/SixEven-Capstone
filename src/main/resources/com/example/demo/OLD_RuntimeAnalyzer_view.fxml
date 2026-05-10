@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.RuntimeAnalyzerController">
+<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.OLD_RuntimeAnalyzerController">
     <padding><Insets bottom="15" left="15" right="15" top="15" /></padding>
 
     <!-- LEFT SIDEBAR -->
