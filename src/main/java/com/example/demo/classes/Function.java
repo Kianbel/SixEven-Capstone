@@ -24,7 +24,8 @@ public class Function {
         String res = name+"(";
         for(int i = 0; i < parameters.size() - 1; i++)
             res+=parameters.get(i).getVariable().toString()+", ";
-        res += parameters.get(parameters.size()-1).getVariable().toString();
+        if(parameters.size() == 1)
+            res += parameters.get(parameters.size()-1).getVariable().toString();
         res += "){\n";
         for(Statement s : statements){
             if(s instanceof MultiLineStatement){
@@ -44,11 +45,29 @@ public class Function {
         res += "}\n";
         return res;
     }
-    public String getRuntime() {
-        String res = "0";
-
-        for(Statement s : statements)
-            res += "+"+s.getRuntime();
-        return Evaluator.getEvaluator().eval("Expand("+ res +")").toString();
+//    public String getRuntime() {
+//        String res = "0";
+//
+//        for(Statement s : statements)
+//            res += "+"+s.getRuntime();
+//        return Evaluator.getEvaluator().eval("Expand("+ res +")").toString();
+//    }
+public String getRuntime() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("0");
+    List<RuntimeRunnable> runnables = new ArrayList<>();
+    for(Statement s : statements){
+        if(statements instanceof MultiLineStatement m){
+            RuntimeRunnable runnable = new RuntimeRunnable(m);
+            runnables.add(runnable);
+            Thread thread = new Thread(runnable);
+            thread.start();
+        }
+        else
+            builder.append("+"+s.getRuntime());
     }
+    for (RuntimeRunnable r: runnables)
+        builder.append("+"+r.getRuntime());
+    return Evaluator.getEvaluator().eval("Expand("+ builder.toString() +")").toString();
+}
 }

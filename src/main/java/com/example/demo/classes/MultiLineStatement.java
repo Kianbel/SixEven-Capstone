@@ -31,11 +31,30 @@ public class MultiLineStatement extends Statement{
 
     @Override
     public String getRuntime() {
-        String res = "0";
-        for(Statement s : statements)
-                res += "+"+s.getRuntime();
-        return Evaluator.getEvaluator().eval(res).toString();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("0");
+        List<RuntimeRunnable> runnables = new ArrayList<>();
+        for(Statement s : statements){
+            if(statements instanceof MultiLineStatement m){
+                RuntimeRunnable runnable = new RuntimeRunnable(m);
+                runnables.add(runnable);
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
+            else
+                builder.append("+"+s.getRuntime());
+        }
+        for (RuntimeRunnable r: runnables)
+            builder.append("+"+r.getRuntime());
+        return Evaluator.getEvaluator().eval("Expand("+ builder.toString() +")").toString();
     }
+//    public String getRuntime() {
+//        String res = "0";
+//        for(Statement s : statements)
+//                res += "+"+s.getRuntime();
+//        return Evaluator.getEvaluator().eval(res).toString();
+//    }
     public  void addStatement(Statement statement){
         statements.add(statement);
 //        System.out.println(variables == null);
