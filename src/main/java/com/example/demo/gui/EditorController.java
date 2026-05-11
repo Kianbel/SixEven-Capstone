@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -239,6 +240,7 @@ public class EditorController {
     @FXML
     private void onLogout() {
         System.out.println("navigated to login");
+        deleteSession();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login_view.fxml"));
             Parent root = loader.load();
@@ -250,6 +252,18 @@ public class EditorController {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void deleteSession() {
+        File session = new File("user.ser");
+        if(session.exists()) {
+            if(session.delete()) {
+                System.out.printf("deleted user.ser");
+            }
+            else {
+                System.out.println("unable to delete user.ser");
+            }
         }
     }
 
