@@ -24,7 +24,8 @@ public class Function {
         String res = name+"(";
         for(int i = 0; i < parameters.size() - 1; i++)
             res+=parameters.get(i).getVariable().toString()+", ";
-        res += parameters.get(parameters.size()-1).getVariable().toString();
+        if(parameters.size() == 1)
+            res += parameters.get(parameters.size()-1).getVariable().toString();
         res += "){\n";
         for(Statement s : statements){
             if(s instanceof MultiLineStatement){

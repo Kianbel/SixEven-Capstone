@@ -52,6 +52,8 @@ public class Variable extends Expression{
     }
 
     public void incrementCounter(){
+        if(!isIterator)
+            return;
         counter++;
         if(counter > 2)
             throw new RuntimeException("An iterator value cannot be reassigned");
