@@ -26,7 +26,7 @@
                 </HBox>
             </top>
             <center>
-                <ScrollPane fitToWidth="true" style="-fx-background: #1e1e1e;">
+                <ScrollPane fitToWidth="false" style="-fx-background: #1e1e1e;">
                     <VBox fx:id="workspace" spacing="15" style="-fx-padding: 20; -fx-min-height: 600;" />
                 </ScrollPane>
             </center>

@@ -15,7 +15,8 @@ public class DropZone extends VBox {
         this.transfer = BlockTransfer.getInstance();
 
         setMinHeight(60);
-        setMinWidth(150);
+//        setMinWidth(150);
+        setFillWidth(true);
         setStyle("-fx-border-color: #666; -fx-border-style: dashed; -fx-border-radius: 5; -fx-background-color: #1e1e1e; -fx-background-radius: 5;");
         setAlignment(javafx.geometry.Pos.CENTER);
 

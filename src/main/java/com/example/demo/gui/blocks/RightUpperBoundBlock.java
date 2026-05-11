@@ -41,7 +41,7 @@ public class RightUpperBoundBlock extends Block {
         Label iterLabel = new Label("iterator");
         iterLabel.setStyle("-fx-text-fill: #858585; -fx-font-size: 9px; -fx-font-weight: bold;");
         iteratorZone = new DropZone("variable", "drop variable");
-        iteratorZone.setMinWidth(80);
+//        iteratorZone.setMinWidth(80);
         iterSlot.getChildren().addAll(iterLabel, iteratorZone);
 
         comparator = new ComboBox<>();
@@ -68,7 +68,8 @@ public class RightUpperBoundBlock extends Block {
         Label boundLabel = new Label("upper bound");
         boundLabel.setStyle("-fx-text-fill: #858585; -fx-font-size: 9px; -fx-font-weight: bold;");
         boundZone = new DropZone("expression", "drop expression");
-        boundZone.setMinWidth(100);
+//        boundZone.setFillWidth(true);
+//        boundZone.setMinWidth(100);
         boundSlot.getChildren().addAll(boundLabel, boundZone);
 
         slots.getChildren().addAll(iterSlot, comparator, boundSlot);

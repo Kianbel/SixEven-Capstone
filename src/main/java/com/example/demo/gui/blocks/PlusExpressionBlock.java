@@ -32,13 +32,15 @@ public class PlusExpressionBlock extends Block {
         slots.setAlignment(javafx.geometry.Pos.CENTER);
 
         leftZone = new DropZone("expression", "left");
-        leftZone.setMinWidth(80);
+//        leftZone.setMinWidth(80);
+//        leftZone.setFillWidth(true);
 
         Label plus = new Label("+");
         plus.setStyle("-fx-text-fill: #DCDCAA; -fx-font-weight: bold; -fx-font-size: 18px; -fx-font-family: 'Consolas';");
 
        rightZone = new DropZone("expression", "right");
-        rightZone.setMinWidth(80);
+//        rightZone.setMinWidth(80);
+//        rightZone.setFillWidth(true);
 
        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");

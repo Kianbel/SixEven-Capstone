@@ -24,7 +24,6 @@ public class ForLoopBlock extends Block {
         // 1. Initialize the transfer instance as you had it
         this.transfer = BlockTransfer.getInstance();
 
-        // 2. Apply the Purple Styling
         setStyle("-fx-background-color: #28212b; " +
                 "-fx-border-color: #C678DD; " +
                 "-fx-border-width: 1.5; " +
@@ -33,7 +32,7 @@ public class ForLoopBlock extends Block {
                 "-fx-padding: 10; " +
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 4);");
 
-        // Header with Title and Delete Button
+
         HBox header = new HBox(10);
         header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
@@ -41,6 +40,7 @@ public class ForLoopBlock extends Block {
         titleLabel.setStyle("-fx-text-fill: #C678DD; -fx-font-weight: bold; -fx-font-family: 'Consolas'; -fx-font-size: 13px;");
 
         javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn.setMinWidth(20);
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
         deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
         deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
@@ -63,7 +63,6 @@ public class ForLoopBlock extends Block {
 
         paramsRow.getChildren().addAll(initSlot, condSlot, incSlot);
 
-        // 3. The Body Zone with its original VBox reference
         bodyZone = new VBox(8);
         bodyZone.setMinWidth(200);
         bodyZone.setMinHeight(60);
@@ -77,9 +76,7 @@ public class ForLoopBlock extends Block {
         // Add components to the block
         getChildren().addAll(header, paramsRow, bodyZone);
 
-        // 4. RESTORED FUNCTIONAL CALLS
         setupBodyDropZone();
-        // If you have setupContextMenu() or others, they stay here too.
     }
 
     // Private helper to keep the UI clean

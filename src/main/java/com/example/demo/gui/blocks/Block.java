@@ -10,6 +10,8 @@ public abstract class Block extends VBox {
 
     public Block() {
         setStyle("-fx-background-color: #2d2d30; -fx-border-color: #555; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 8;");
+
+        setFillWidth(true);
         setSpacing(5);
         transfer = BlockTransfer.getInstance();
     }
