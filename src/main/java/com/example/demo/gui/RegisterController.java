@@ -4,19 +4,14 @@ import com.example.demo.classes.User;
 import com.example.demo.database.DatabaseHandler;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.Objects;
 
 public class RegisterController {
     @FXML private Button buttonSignup;
@@ -93,50 +88,18 @@ public class RegisterController {
     }
 
     @FXML private void onSignInHyperlinkClicked() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login_view.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.sizeToScene();
-            stage.setTitle("Login Page");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ScreenSwitcher.switchScreen("/com/example/demo/Login_view.fxml");
     }
 
     private void navigateToEditor() {
         System.out.println("navigated to editor");
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Editor_view.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-            stage.setScene(scene);
-            stage.sizeToScene();
-            stage.setTitle("Runtime Analyzer");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ScreenSwitcher.switchScreen("/com/example/demo/Editor_view.fxml");
     }
 
     private void navigateToLogin() {
         System.out.println("navigated to login");
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login_view.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) textfieldUsername.getScene().getWindow();
-            stage.setScene(scene);
-            stage.sizeToScene();
-            stage.setTitle("Login page");
+        ScreenSwitcher.switchScreen("/com/example/demo/Login_view.fxml");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void saveSession(User user) {

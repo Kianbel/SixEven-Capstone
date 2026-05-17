@@ -69,18 +69,7 @@ public class CodeRepositoryController {
     @FXML
     private void onReturnToEditor() {
         System.out.println("navigated to editor");
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Editor_view.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) labelTotalSnippets.getScene().getWindow();
-            stage.setScene(scene);
-            stage.sizeToScene();
-            stage.setTitle("Runtime Analyzer");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ScreenSwitcher.switchScreen("/com/example/demo/Editor_view.fxml");
     }
 
     private void setupTitleLink() {
@@ -110,21 +99,29 @@ public class CodeRepositoryController {
     }
 
     private void navigateToCodeDetails(CodeSnippet selectedSnippet) {
-        // Redirect logic goes here.
-        // Example: Pass 'selectedSnippet' to your next controller
-        try{
+
+        // cannot use ScreenSwitcher.switchScreen() because selectedSnippet needs to be passed.
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/CodeDetail_view.fxml"));
             Parent root = loader.load();
 
             CodeDetailController controller = loader.getController();
             controller.setDetails(selectedSnippet);
 
-            Scene scene = new Scene(root);
             Stage stage = (Stage) tableRepository.getScene().getWindow();
-            stage.setScene(scene);
-            stage.sizeToScene();
+            Scene currentScene = stage.getScene();
+
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+            } else {
+                currentScene = new Scene(root);
+                stage.setScene(currentScene);
+            }
+
             stage.setTitle("Code Details");
-        }catch (IOException e){
+            stage.show();
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
