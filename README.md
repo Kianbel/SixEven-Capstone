@@ -24,7 +24,6 @@ T(n)-spector is an easy-to-use desktop application designed to help users, espec
 ## Evaluation Criteria Mapping
 
 ### 1. Object-Oriented Programming (OOP)
-The core architecture of the application relies strictly on OOP principles to represent program logic as data structures:
 - **Inheritance, Polymorphism, & Abstraction:** An abstract `Statement` class serves as the foundation for multi-line blocks (`MultiLineStatement`) and single-line expressions (`SingleLineStatement`). Which further brances to `Loop`, `Declaration`, and `Assignment` classes. Additionally, the `Operator` class branches into `AssignmentOperator`, `ArithmeticOperator`, `LogicalOperator`, and `IndexOperator`.
 
 - **Encapsulation:** The `CodeSnippet` class encapsulates relational database records—packaging metadata (`codeid`, `title`, `runtime`, `language`, `datecreated`, `userid`) into self-contained data models. The `User` class also does the same thing housing a user's data (`uid`, `username`, `firstname`, `lastname`).
