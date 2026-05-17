@@ -42,6 +42,13 @@ public class CodeRepositoryController {
             rows.addAll(snippets);
         }
 
+        for (TableColumn<?, ?> col : tableRepository.getColumns()) {
+            Label header = new Label(col.getText());
+            header.setStyle("-fx-text-fill: #dcdcdc; -fx-font-weight: bold;");
+            col.setGraphic(header);
+            col.setText("");
+        }
+
 
         // filter the data based on the search bar with dynamic updating
         FilteredList<CodeSnippet> filteredData = new FilteredList<>(rows, p -> true);
