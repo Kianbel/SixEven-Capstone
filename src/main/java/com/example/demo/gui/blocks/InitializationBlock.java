@@ -40,7 +40,7 @@ public class InitializationBlock extends Block {
         valueZone.setMinWidth(80);
 
         // Unified "Ghost" Delete Button from your DeclarationBlock
-        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn = new javafx.scene.control.Button("✕");
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
         deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
         deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
@@ -50,6 +50,7 @@ public class InitializationBlock extends Block {
                 ((VBox) getParent()).getChildren().remove(this);
             }
         });
+        setDeleteButtonVisible(false);
 
         // Spacer to push the delete button to the right
         Region spacer = new Region();

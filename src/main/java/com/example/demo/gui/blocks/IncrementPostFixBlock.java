@@ -34,7 +34,7 @@ public class IncrementPostFixBlock extends Block {
         incLabel.setStyle("-fx-text-fill: #4EC9B0; -fx-font-weight: bold; -fx-font-family: 'Consolas'; -fx-font-size: 16px;");
 
 
-        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn = new javafx.scene.control.Button("✕");
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
         deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
         deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
@@ -44,6 +44,7 @@ public class IncrementPostFixBlock extends Block {
                 ((VBox) getParent()).getChildren().remove(this);
             }
         });
+        setDeleteButtonVisible(false);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

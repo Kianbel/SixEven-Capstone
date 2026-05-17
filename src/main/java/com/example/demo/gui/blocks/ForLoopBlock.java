@@ -39,7 +39,7 @@ public class ForLoopBlock extends Block {
         Label titleLabel = new Label("for");
         titleLabel.setStyle("-fx-text-fill: #C678DD; -fx-font-weight: bold; -fx-font-family: 'Consolas'; -fx-font-size: 13px;");
 
-        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn = new javafx.scene.control.Button("✕");
         deleteBtn.setMinWidth(20);
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
         deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
@@ -47,6 +47,7 @@ public class ForLoopBlock extends Block {
         deleteBtn.setOnAction(e -> {
             if (getParent() != null) ((VBox) getParent()).getChildren().remove(this);
         });
+        setDeleteButtonVisible(false);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

@@ -34,7 +34,7 @@ public class ValueBlock extends Block {
                 "-fx-font-family: 'Consolas'; " +
                 "-fx-font-weight: bold;");
 
-        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn = new javafx.scene.control.Button("✕");
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
 
         deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
@@ -45,6 +45,7 @@ public class ValueBlock extends Block {
                 ((VBox) getParent()).getChildren().remove(this);
             }
         });
+        setDeleteButtonVisible(false);
 
         javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
         javafx.scene.layout.HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);

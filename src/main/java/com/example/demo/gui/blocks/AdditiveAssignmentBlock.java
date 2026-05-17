@@ -35,7 +35,7 @@ public class AdditiveAssignmentBlock extends Block {
         stepZone = new DropZone("expression", "step");
         stepZone.setMinWidth(60);
 
-        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn = new javafx.scene.control.Button("✕");
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
         deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
         deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
@@ -45,6 +45,7 @@ public class AdditiveAssignmentBlock extends Block {
                 ((VBox) getParent()).getChildren().remove(this);
             }
         });
+        setDeleteButtonVisible(false);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
