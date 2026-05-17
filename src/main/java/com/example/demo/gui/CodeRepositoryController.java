@@ -117,7 +117,7 @@ public class CodeRepositoryController {
             Parent root = loader.load();
 
             CodeDetailController controller = loader.getController();
-            controller.setText(selectedSnippet.getCode());
+            controller.setDetails(selectedSnippet);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) tableRepository.getScene().getWindow();

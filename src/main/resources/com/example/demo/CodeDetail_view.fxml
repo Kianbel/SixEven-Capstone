@@ -5,21 +5,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.CodeDetailController">
+<AnchorPane prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.gui.CodeDetailController">
     <children>
-        <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
 
-                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-width: 0 0 1 0;">
+                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-width: 0 0 1 0;">
+                    <padding>
+                        <Insets bottom="15.0" left="25.0" right="25.0" top="15.0" />
+                    </padding>
                     <children>
-                        <VBox HBox.hgrow="ALWAYS">
+                        <VBox spacing="4.0" HBox.hgrow="ALWAYS">
                             <children>
-                                <Label text="Code Entry Details" textFill="#2c3e50">
+                                <Label text="Code Snippet Details" textFill="#2c3e50">
                                     <font>
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
-                                <Label text="Review the full code contents below." textFill="#7f8c8d">
+                                <Label text="Review the full code contents and related information below." textFill="#7f8c8d">
                                     <font>
                                         <Font size="12.0" />
                                     </font>
@@ -27,36 +30,78 @@
                             </children>
                         </VBox>
                     </children>
-                    <padding>
-                        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
-                    </padding>
                 </HBox>
 
-                <VBox spacing="8.0" VBox.vgrow="ALWAYS">
+                <VBox spacing="10.0">
+                    <padding>
+                        <Insets left="25.0" right="25.0" />
+                    </padding>
                     <children>
-                        <Label text="Source Code / Details:" textFill="#34495e">
+                        <Label text="Code Information" textFill="#34495e">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <TextArea fx:id="codeDetailsTextArea" editable="false" style="-fx-font-family: 'Courier New'; -fx-font-size: 13px;" wrapText="true" VBox.vgrow="ALWAYS">
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
-                        </TextArea>
+                        <GridPane hgap="15.0" style="-fx-background-color: #fdfdfd; -fx-border-color: #e2e8f0; -fx-border-radius: 6; -fx-background-radius: 6;" vgap="10.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" minWidth="100.0" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label text="Title:" textFill="#718096" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <font><Font name="System Bold" size="12.0" /></font>
+                                </Label>
+                                <Label fx:id="titleLabel" text="N/A" textFill="#2d3748" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                <Label text="Language:" textFill="#718096" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <font><Font name="System Bold" size="12.0" /></font>
+                                </Label>
+                                <Label fx:id="languageLabel" text="N/A" textFill="#2d3748" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label text="Date Created:" textFill="#718096" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                    <font><Font name="System Bold" size="12.0" /></font>
+                                </Label>
+                                <Label fx:id="dateLabel" text="N/A" textFill="#2d3748" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                <Label text="Created By:" textFill="#718096" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                    <font><Font name="System Bold" size="12.0" /></font>
+                                </Label>
+                                <Label fx:id="createdByLabel" text="N/A" textFill="#2d3748" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            </children>
+                        </GridPane>
                     </children>
+                </VBox>
+
+                <VBox spacing="8.0" VBox.vgrow="ALWAYS">
                     <padding>
-                        <Insets left="20.0" right="20.0" />
+                        <Insets left="25.0" right="25.0" />
                     </padding>
+                    <children>
+                        <Label text="Source Code:" textFill="#34495e">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <TextArea fx:id="codeDetailsTextArea" editable="false" style="-fx-font-family: 'Courier New'; -fx-font-size: 13px; -fx-control-inner-background: #fafafa;" wrapText="true" VBox.vgrow="ALWAYS" />
+                    </children>
                 </VBox>
 
                 <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                    <children>
-                        <Button mnemonicParsing="false" onAction="#onClick" prefWidth="100.0" style="-fx-background-radius: 4; -fx-cursor: hand;" text="Close" />
-                    </children>
                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="5.0" />
+                        <Insets bottom="20.0" left="25.0" right="25.0" top="5.0" />
                     </padding>
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#onClick" prefWidth="110.0" style="-fx-background-radius: 4; -fx-cursor: hand; -fx-background-color: #4a5568; -fx-text-fill: white;" text="Close" />
+                    </children>
                 </HBox>
 
             </children>
