@@ -69,8 +69,9 @@ public class RegisterController {
             User user = registerTask.getValue();
             if(user != null) {
                 showSuccess("Glad to have you, "+user.getFirstname()+"!");
-                saveSession(user);
-                navigateToEditor();
+//                saveSession(user);
+//                navigateToEditor();
+                navigateToLogin();
             } else {
                 showError("Registration failed: Username may exist.");
                 buttonSignup.setDisable(false);
@@ -116,6 +117,22 @@ public class RegisterController {
             stage.setScene(scene);
             stage.sizeToScene();
             stage.setTitle("Runtime Analyzer");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void navigateToLogin() {
+        System.out.println("navigated to login");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login_view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) textfieldUsername.getScene().getWindow();
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setTitle("Login page");
 
         } catch (IOException e) {
             e.printStackTrace();
