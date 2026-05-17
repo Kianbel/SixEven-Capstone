@@ -1,33 +1,24 @@
 package com.example.demo.gui;
 
 import com.example.demo.classes.User;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
+        ScreenSwitcher.initialize(stage);
+
         User user = deserialize();
+
         if(user != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/com/example/demo/Editor_view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            stage.setTitle("Runtime Analyzer");
-            stage.setScene(scene);
-            stage.show();
+            ScreenSwitcher.switchScreen("/com/example/demo/EditorView.fxml");
         }
         else {
-            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/com/example/demo/Login_view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            stage.setTitle("Login page");
-            stage.setScene(scene);
-            stage.show();
+            ScreenSwitcher.switchScreen("/com/example/demo/LoginView.fxml");
         }
     }
 

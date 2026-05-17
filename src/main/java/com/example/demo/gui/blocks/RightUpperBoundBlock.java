@@ -74,7 +74,7 @@ public class RightUpperBoundBlock extends Block {
 
         slots.getChildren().addAll(iterSlot, comparator, boundSlot);
 
-        javafx.scene.control.Button deleteBtn = new javafx.scene.control.Button("✕");
+        deleteBtn = new javafx.scene.control.Button("✕");
         deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585; -fx-font-size: 10px; -fx-cursor: hand;");
         deleteBtn.setOnMouseEntered(e -> deleteBtn.setStyle("-fx-background-color: #e81123; -fx-text-fill: white; -fx-background-radius: 4;"));
         deleteBtn.setOnMouseExited(e -> deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #858585;"));
@@ -84,6 +84,7 @@ public class RightUpperBoundBlock extends Block {
                 ((VBox) getParent()).getChildren().remove(this);
             }
         });
+        setDeleteButtonVisible(false);
 
         HBox header = new HBox(10);
         header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);

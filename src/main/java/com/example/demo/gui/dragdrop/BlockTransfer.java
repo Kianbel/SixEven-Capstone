@@ -23,6 +23,8 @@ public class BlockTransfer {
 
     // For blocks in TOOLBOX - uses COPY mode, keeps original
     public void setupToolboxDragSource(Block block) {
+        block.setDeleteButtonVisible(false);
+
         block.setOnDragDetected(event -> {
             dragContext.startDrag(block, true);
 
@@ -46,6 +48,8 @@ public class BlockTransfer {
 
     // For blocks in WORKSPACE - uses MOVE mode, removes original on successful drop
     public void setupWorkspaceDragSource(Block block) {
+        block.setDeleteButtonVisible(true);
+
         block.setOnDragDetected(event -> {
             dragContext.startDrag(block, false);
 
@@ -98,6 +102,7 @@ public class BlockTransfer {
                     droppedBlock = dragged.cloneBlock();
                     if (droppedBlock != null) {
                         zone.setBlock(droppedBlock);
+                        droppedBlock.setDeleteButtonVisible(true);
                         event.setDropCompleted(true);
                     }
                 } else {
