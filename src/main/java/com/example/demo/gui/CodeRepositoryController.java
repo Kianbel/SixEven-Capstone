@@ -69,7 +69,7 @@ public class CodeRepositoryController {
     @FXML
     private void onReturnToEditor() {
         System.out.println("navigated to editor");
-        ScreenSwitcher.switchScreen("/com/example/demo/Editor_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/EditorView.fxml");
     }
 
     private void setupTitleLink() {
@@ -102,7 +102,7 @@ public class CodeRepositoryController {
 
         // cannot use ScreenSwitcher.switchScreen() because selectedSnippet needs to be passed.
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/CodeDetail_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/CodeDetailView.fxml"));
             Parent root = loader.load();
 
             CodeDetailController controller = loader.getController();

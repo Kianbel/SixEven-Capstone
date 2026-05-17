@@ -88,17 +88,17 @@ public class RegisterController {
     }
 
     @FXML private void onSignInHyperlinkClicked() {
-        ScreenSwitcher.switchScreen("/com/example/demo/Login_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/LoginView.fxml");
     }
 
     private void navigateToEditor() {
         System.out.println("navigated to editor");
-        ScreenSwitcher.switchScreen("/com/example/demo/Editor_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/EditorView.fxml");
     }
 
     private void navigateToLogin() {
         System.out.println("navigated to login");
-        ScreenSwitcher.switchScreen("/com/example/demo/Login_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/LoginView.fxml");
 
     }
 

@@ -22,6 +22,6 @@ public class CodeDetailController {
 
     @FXML
     private void onClick(){
-        ScreenSwitcher.switchScreen("/com/example/demo/CodeRepository_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/CodeRepositoryView.fxml");
     }
 }

@@ -73,12 +73,12 @@ public class LoginController {
     }
 
     @FXML private void onRegisterHyperlinkClicked() {
-        ScreenSwitcher.switchScreen("/com/example/demo/Register_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/RegisterView.fxml");
     }
 
     private void navigateToEditor() {
         System.out.println("navigated to editor");
-        ScreenSwitcher.switchScreen("/com/example/demo/Editor_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/EditorView.fxml");
     }
 
     private void saveSession(User user) {

@@ -15,10 +15,10 @@ public class Application extends javafx.application.Application {
         User user = deserialize();
 
         if(user != null) {
-            ScreenSwitcher.switchScreen("/com/example/demo/Editor_view.fxml");
+            ScreenSwitcher.switchScreen("/com/example/demo/EditorView.fxml");
         }
         else {
-            ScreenSwitcher.switchScreen("/com/example/demo/Login_view.fxml");
+            ScreenSwitcher.switchScreen("/com/example/demo/LoginView.fxml");
         }
     }
 

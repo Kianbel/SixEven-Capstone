@@ -218,14 +218,14 @@ public class EditorController {
     @FXML
     private void onGoToRepository() {
         System.out.println("navigated to repository");
-        ScreenSwitcher.switchScreen("/com/example/demo/CodeRepository_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/CodeRepositoryView.fxml");
     }
 
     @FXML
     private void onLogout() {
         System.out.println("navigated to login");
         deleteSession();
-        ScreenSwitcher.switchScreen("/com/example/demo/Login_view.fxml");
+        ScreenSwitcher.switchScreen("/com/example/demo/LoginView.fxml");
 
     }
 
