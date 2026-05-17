@@ -112,6 +112,22 @@ public class CodeRepositoryController {
     private void navigateToCodeDetails(CodeSnippet selectedSnippet) {
         // Redirect logic goes here.
         // Example: Pass 'selectedSnippet' to your next controller
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/CodeDetail_view.fxml"));
+            Parent root = loader.load();
+
+            CodeDetailController controller = loader.getController();
+            controller.setText(selectedSnippet.getCode());
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) tableRepository.getScene().getWindow();
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setTitle("Code Details");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
         System.out.println("Redirecting to details for: " + selectedSnippet.getTitle());
     }
 }
