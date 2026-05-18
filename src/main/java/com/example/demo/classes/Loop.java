@@ -29,6 +29,8 @@ public abstract class Loop extends MultiLineStatement{
                 throw new RuntimeException("UpperBound cannot be increasing");
             if(condition.getIterator().getExpression() == null)
                 throw new RuntimeException("Iterator cannot be NULL");
+            if((Integer)(((Value)(increment.getExpression())).getElem()) <= 0)
+                throw new RuntimeException("Cannot be negative");
             condition.getIterator().setIterator(true);
             if(condition instanceof UpperBound u && increment instanceof IncreaseAssignment){
                 String res = statement.getRuntime() +
